@@ -5,15 +5,19 @@ import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
 import mealsByIngredient from '../../cypress/mocks/mealsByIngredient';
+import emptyMeals from '../../cypress/mocks/emptyMeals';
+import cocktailDrinks from '../../cypress/mocks/cocktailDrinks';
 
 describe('SearchBar component', () => {
-  test('I am your test', async () => {
+  test('food page', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve(mealsByIngredient),
     }));
+
     await act(async () => {
       renderWithRouter(<App />);
     });
+
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const buttonSubmit = screen.getByTestId('login-submit-btn');
@@ -37,6 +41,40 @@ describe('SearchBar component', () => {
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(searchBtn);
 
+    global.fetch.mockRestore();
+  });
+
+  test('food page empty response', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      json: () => Promise.resolve(emptyMeals),
+    }));
+
+    await act(async () => {
+      renderWithRouter(<App />);
+    });
+
+    const searchInput = screen.getByTestId('search-input');
+    const nameRadio = screen.getByRole('radio', { name: /name/i });
+    const searchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'xablau');
+    userEvent.click(nameRadio);
+    userEvent.click(searchBtn);
+
+    global.fetch.mockRestore();
+  });
+
+  test('drink page', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      json: () => Promise.resolve(cocktailDrinks),
+    }));
+
+    await act(async () => {
+      const { history } = renderWithRouter(<App />, ['/drinks']);
+      history.push('/drinks');
+    });
+
+    // expect(screen.getByText(/drinks/i)).toBeInTheDocument();
     global.fetch.mockRestore();
   });
 });

@@ -3,6 +3,9 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Provider from './context/Provider';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function App() {
   return (
@@ -16,9 +19,9 @@ function App() {
           <Route path="drinks/id:" />
           <Route path="foods/id:/in-progress" />
           <Route path="drinks/id:/in-progress" />
-          <Route path="profile" />
-          <Route path="done-recipes" />
-          <Route path="favorite-recipes" />
+          <Route path="/profile" exact component={ Profile } />
+          <Route path="/done-recipes" exact component={ DoneRecipes } />
+          <Route path="/favorite-recipes" exact component={ FavoriteRecipes } />
         </Switch>
       </Provider>
     </BrowserRouter>

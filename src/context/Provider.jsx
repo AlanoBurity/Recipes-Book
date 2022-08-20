@@ -26,7 +26,7 @@ const Provider = ({ children }) => {
   };
   return (
     <context.Provider value={ contextValue }>
-      { children}
+      { children }
     </context.Provider>);
 };
 

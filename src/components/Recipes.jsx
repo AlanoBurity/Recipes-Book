@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import context from '../context/Context';
 import fetchCocktailApi from '../services/fetchCocktailApi';
 import fetchDrinksFilterCategory from '../services/fetchDrinksFilterCategory';
@@ -11,6 +11,7 @@ const numberMaxCategorys = 5;
 
 function Recipes(props) {
   const { pathname } = props;
+  const { history } = props;
   const {
     apiMealData: { meals },
     apiCocktailData: { drinks },
@@ -19,16 +20,7 @@ function Recipes(props) {
     setApiMealData,
     setApiCocktailData,
   } = useContext(context);
-
-  const handleMealsFilterByCategory = async ({ target: { name } }) => {
-    const filteredMeals = await fetchMealsFilterCategory(name);
-    setApiMealData(filteredMeals);
-  };
-
-  const handleDrinksFilterByCategory = async ({ target: { name } }) => {
-    const filteredDrinks = await fetchDrinksFilterCategory(name);
-    setApiCocktailData(filteredDrinks);
-  };
+  const [toggleFilter, setToggleFilter] = useState({});
 
   const handleAllDrinks = async () => {
     const drinksResponse = await fetchCocktailApi('', 's');
@@ -38,6 +30,42 @@ function Recipes(props) {
   const handleAllMeals = async () => {
     const mealsResponse = await fetchMealApi('', 's');
     setApiMealData(mealsResponse);
+  };
+
+  const handleMealsFilterByCategory = async ({ target: { name } }) => {
+    if (!toggleFilter[name]) {
+      const filteredMeals = await fetchMealsFilterCategory(name);
+      setApiMealData(filteredMeals);
+      setToggleFilter({
+        ...toggleFilter,
+        [name]: true,
+      });
+    }
+    if (toggleFilter[name]) {
+      handleAllMeals();
+      setToggleFilter({
+        ...toggleFilter,
+        [name]: false,
+      });
+    }
+  };
+
+  const handleDrinksFilterByCategory = async ({ target: { name } }) => {
+    if (!toggleFilter[name]) {
+      const filteredDrinks = await fetchDrinksFilterCategory(name);
+      setApiCocktailData(filteredDrinks);
+      setToggleFilter({
+        ...toggleFilter,
+        [name]: true,
+      });
+    }
+    if (toggleFilter[name]) {
+      handleAllDrinks();
+      setToggleFilter({
+        ...toggleFilter,
+        [name]: false,
+      });
+    }
   };
 
   return (
@@ -65,13 +93,19 @@ function Recipes(props) {
             ))}
           </div>
           {drinks.slice(0, numberRenderItems).map((drink, index) => (
-            <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
+            <div key={ drink.idDrink }>
               <img
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
                 data-testid={ `${index}-card-img` }
               />
-              <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+              <button
+                type="button"
+                data-testid={ `${index}-recipe-card` }
+                onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+              >
+                <span data-testid={ `${index}-card-name` }>{drink.strDrink}</span>
+              </button>
             </div>
           ))}
         </div>
@@ -102,13 +136,19 @@ function Recipes(props) {
               ))}
           </div>
           {meals.slice(0, numberRenderItems).map((meal, index) => (
-            <div key={ meal.idMeal } data-testid={ `${index}-recipe-card` }>
+            <div key={ meal.idMeal }>
               <img
                 src={ meal.strMealThumb }
                 alt={ meal.idMeal }
                 data-testid={ `${index}-card-img` }
               />
-              <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+              <button
+                type="button"
+                data-testid={ `${index}-recipe-card` }
+                onClick={ () => history.push(`/foods/${meal.idMeal}`) }
+              >
+                <span data-testid={ `${index}-card-name` }>{meal.strMeal}</span>
+              </button>
             </div>
           ))}
         </div>
@@ -118,6 +158,9 @@ function Recipes(props) {
 }
 
 Recipes.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   pathname: PropTypes.string.isRequired,
 };
 

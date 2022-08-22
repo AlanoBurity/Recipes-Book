@@ -27,7 +27,7 @@ function Foods(props) {
     <>
       <SearchBar pathname={ pathname } history={ history } />
       <p>foods</p>
-      { apiMealData.meals && <Recipes pathname={ pathname } />}
+      { apiMealData.meals && <Recipes pathname={ pathname } history={ history } />}
 
       {/* retirar botao usado no teste do SearchBar */}
       <button

@@ -25,7 +25,7 @@ function Drinks(props) {
     <>
       <SearchBar pathname={ pathname } history={ history } />
       <p>drinks</p>
-      { apiCocktailData.drinks && <Recipes pathname={ pathname } />}
+      { apiCocktailData.drinks && <Recipes pathname={ pathname } history={ history } />}
     </>
   );
 }

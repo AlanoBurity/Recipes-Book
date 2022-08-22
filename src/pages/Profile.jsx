@@ -16,6 +16,7 @@ function Profile() {
 
   return (
     <div>
+
       <Header titulo="Profile" searchInput={ false } />
       <h1 data-testid="profile-email">
         {' '}

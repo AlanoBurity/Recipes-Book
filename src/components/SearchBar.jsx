@@ -117,7 +117,7 @@ function SearchBar(props) {
         data-testid="exec-search-btn"
         onClick={ handleSearch }
       >
-        Search
+        Search Filter
       </button>
     </div>
   );

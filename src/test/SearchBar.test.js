@@ -35,7 +35,7 @@ describe('SearchBar component', () => {
     const searchInput = screen.getByTestId('search-input');
     const ingredientRadio = screen.getByTestId('ingredient-search-radio');
     const firstRadio = screen.getByTestId('first-letter-search-radio');
-    const searchBtn = screen.getByTestId('exec-search-btn');
+    const searchBtn = screen.getByRole('button', { name: /search filter/i });
 
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(ingredientRadio);
@@ -61,7 +61,7 @@ describe('SearchBar component', () => {
 
     const searchInput = screen.getByTestId('search-input');
     const nameRadio = screen.getByRole('radio', { name: /name/i });
-    const searchBtn = screen.getByTestId('exec-search-btn');
+    const searchBtn = screen.getByRole('button', { name: /search filter/i });
 
     userEvent.type(searchInput, 'xablau');
     userEvent.click(nameRadio);
@@ -83,7 +83,7 @@ describe('SearchBar component', () => {
 
     const searchInput = screen.getByRole('textbox');
     const ingredientRadio = screen.getByTestId('ingredient-search-radio');
-    const searchBtn = screen.getByTestId('exec-search-btn');
+    const searchBtn = screen.getByRole('button', { name: /search filter/i });
 
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(ingredientRadio);

@@ -1,0 +1,8 @@
+header {
+  padding: 5px;
+}
+
+div {
+  display: flex;
+  justify-content: space-between;
+}

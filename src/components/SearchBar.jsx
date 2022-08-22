@@ -69,7 +69,6 @@ function SearchBar(props) {
 
   return (
     <div>
-      <p data-testid="search-top-btn">retirar</p>
       <input
         data-testid="search-input"
         type="text"

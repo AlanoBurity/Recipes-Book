@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 function Profile() {
   const [userEmailOnLocalStorage, setUserEmailOnLocalStorage] = useState('');
@@ -16,6 +17,8 @@ function Profile() {
 
   return (
     <div>
+
+      <Header titulo="Profile" searchInput={ false } />
       <h1 data-testid="profile-email">
         {' '}
         {userEmailOnLocalStorage}

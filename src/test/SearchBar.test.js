@@ -29,6 +29,9 @@ describe('SearchBar component', () => {
     userEvent.type(passwordInput, passwordTest);
     userEvent.click(buttonSubmit);
 
+    const search = screen.getByRole('img', { name: /search/i });
+    userEvent.click(search);
+
     const searchInput = screen.getByTestId('search-input');
     const ingredientRadio = screen.getByTestId('ingredient-search-radio');
     const firstRadio = screen.getByTestId('first-letter-search-radio');
@@ -53,6 +56,8 @@ describe('SearchBar component', () => {
     await act(async () => {
       renderWithRouter(<App />);
     });
+    const search = screen.getByRole('img', { name: /search/i });
+    userEvent.click(search);
 
     const searchInput = screen.getByTestId('search-input');
     const nameRadio = screen.getByRole('radio', { name: /name/i });
@@ -73,10 +78,12 @@ describe('SearchBar component', () => {
     await act(async () => {
       renderWithRouter(<App />);
     });
+    const search = screen.getByRole('img', { name: /search/i });
+    userEvent.click(search);
 
     const searchInput = screen.getByRole('textbox');
     const ingredientRadio = screen.getByTestId('ingredient-search-radio');
-    const searchBtn = screen.getByRole('button', { name: /search/i });
+    const searchBtn = screen.getByTestId('exec-search-btn');
 
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(ingredientRadio);
@@ -96,9 +103,12 @@ describe('SearchBar component', () => {
     const drinksPage = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinksPage);
 
+    const search = screen.getByRole('img', { name: /search/i });
+    userEvent.click(search);
+
     const searchInput = screen.getByRole('textbox');
     const nameRadio = screen.getByRole('radio', { name: /name/i });
-    const searchBtn = screen.getByRole('button', { name: /search/i });
+    const searchBtn = screen.getByTestId('exec-search-btn');
 
     userEvent.type(searchInput, 'xablau');
     userEvent.click(nameRadio);
@@ -117,9 +127,12 @@ describe('SearchBar component', () => {
       renderWithRouter(<App />);
     });
 
+    const search = screen.getByRole('img', { name: /search/i });
+    userEvent.click(search);
+
     const searchInput = screen.getByRole('textbox');
     const nameRadio = screen.getByRole('radio', { name: /name/i });
-    const searchBtn = screen.getByRole('button', { name: /search/i });
+    const searchBtn = screen.getByTestId('exec-search-btn');
 
     userEvent.type(searchInput, 'xablau');
     userEvent.click(nameRadio);

@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
+import SearchBar from '../components/SearchBar';
+import RecipesCard from '../components/RecipesCard';
+import context from '../context/Context';
 
-function Drinks() {
+function Drinks(props) {
+  const { location: { pathname } } = props;
+  const { history } = props;
+  const { apiCocktailData } = useContext(context);
+
   return (
-    <div>
+    <>
+      <SearchBar pathname={ pathname } history={ history } />
+      <p>drinks</p>
+      {apiCocktailData.drinks ? <RecipesCard /> : null}
       <Footer />
-    </div>);
+    </>
+  );
 }
+
+Drinks.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Drinks;

@@ -14,7 +14,8 @@ function Drinks(props) {
       <SearchBar pathname={ pathname } history={ history } />
       <p>drinks</p>
       {apiCocktailData.drinks ? <RecipesCard /> : null}
-    </>);
+    </>
+  );
 }
 
 Drinks.propTypes = {

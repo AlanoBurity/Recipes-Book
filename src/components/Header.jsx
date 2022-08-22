@@ -5,10 +5,9 @@ import iconePerfil from '../images/profileIcon.svg';
 import iconeSearch from '../images/searchIcon.svg';
 import context from '../context/Context';
 import '../styles/Header.css';
-import SearchBar from './SearchBar';
 
 function Header({ titulo, searchInput }) {
-  const { searchBtn, setSearchBtn } = useContext(context);
+  const { setSearchBtn } = useContext(context);
   const history = useHistory();
   // console.log(history);
   return (

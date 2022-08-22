@@ -1,17 +1,19 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import context from '../context/Context';
 
 const numberRenderItems = 12;
 
-function RecipesCard() {
+function Recipes(props) {
+  const { pathname } = props;
   const {
     apiMealData: { meals },
     apiCocktailData: { drinks },
   } = useContext(context);
-  // const render = apiMealData.meals.length ? apiMealData.meals : apiCocktailData.drinks;
+
   return (
     <div>
-      {drinks
+      {pathname === '/drinks'
         ? drinks.slice(0, numberRenderItems).map((drink, index) => (
           <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
             <img
@@ -36,4 +38,8 @@ function RecipesCard() {
   );
 }
 
-export default RecipesCard;
+Recipes.propTypes = {
+  pathname: PropTypes.string.isRequired,
+};
+
+export default Recipes;

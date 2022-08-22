@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Provider from './context/Provider';
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
-import Profile from './pages/Profiles';
+import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 
@@ -24,6 +24,7 @@ function App() {
           <Route path="/foods/:id/in-progress" exact />
           <Route path="/drinks/:id/in-progress" exact />
           <Route path="/" exact component={ Login } />
+
         </Switch>
       </Provider>
     </BrowserRouter>

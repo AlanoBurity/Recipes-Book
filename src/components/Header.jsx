@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import iconePerfil from '../images/profileIcon.svg';
 import iconeSearch from '../images/searchIcon.svg';
-import InputSearch from './InputSearch';
 import context from '../context/Context';
 import '../styles/Header.css';
+import SearchBar from './SearchBar';
 
 function Header({ titulo, searchInput }) {
   const { searchBtn, setSearchBtn } = useContext(context);
@@ -47,10 +47,6 @@ function Header({ titulo, searchInput }) {
 
           </button>
         </div>)}
-
-      { searchBtn && (
-        <InputSearch />
-      )}
     </header>
   );
 }

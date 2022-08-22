@@ -6,6 +6,10 @@ const Provider = ({ children }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [searchBtn, setSearchBtn] = useState(false);
+  const [searchName, setSearchName] = useState('');
+  const [radioSearch, setRadioSearch] = useState('');
+  const [apiMealData, setApiMealData] = useState({});
+  const [apiCocktailData, setApiCocktailData] = useState({});
 
   const contextValue = {
     email,
@@ -14,10 +18,18 @@ const Provider = ({ children }) => {
     setPassword,
     searchBtn,
     setSearchBtn,
+    searchName,
+    setSearchName,
+    radioSearch,
+    setRadioSearch,
+    setApiMealData,
+    apiMealData,
+    apiCocktailData,
+    setApiCocktailData,
   };
   return (
     <context.Provider value={ contextValue }>
-      { children}
+      { children }
     </context.Provider>);
 };
 

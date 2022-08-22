@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import RecipesCard from '../components/RecipesCard';
@@ -16,6 +17,7 @@ function Drinks(props) {
       { searchBtn && <SearchBar pathname={ pathname } history={ history } /> }
       <p>drinks</p>
       {apiCocktailData.drinks ? <RecipesCard /> : null}
+      <Footer />
     </>
   );
 }

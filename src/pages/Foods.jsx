@@ -4,18 +4,21 @@ import SearchBar from '../components/SearchBar';
 import Recipes from '../components/Recipes';
 import context from '../context/Context';
 import fetchMealApi from '../services/fetchMealApi';
+import fetchMealsCategorys from '../services/fetchMealsCategorys';
 
 function Foods(props) {
   const {
     location: { pathname },
   } = props;
   const { history } = props;
-  const { apiMealData, setApiMealData } = useContext(context);
+  const { apiMealData, setApiMealData, setMealscategorys } = useContext(context);
 
   useEffect(() => {
     const getMeal = async () => {
       const mealsResponse = await fetchMealApi('', 's');
       setApiMealData(mealsResponse);
+      const mealsCategorys = await fetchMealsCategorys();
+      setMealscategorys(mealsCategorys);
     };
     getMeal();
   }, []);

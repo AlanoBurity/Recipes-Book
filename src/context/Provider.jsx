@@ -9,6 +9,8 @@ const Provider = ({ children }) => {
   const [radioSearch, setRadioSearch] = useState('');
   const [apiMealData, setApiMealData] = useState({});
   const [apiCocktailData, setApiCocktailData] = useState({});
+  const [mealsCategorys, setMealscategorys] = useState({});
+  const [drinksCategorys, setDrinksCategorys] = useState({});
 
   const contextValue = {
     email,
@@ -23,6 +25,10 @@ const Provider = ({ children }) => {
     apiMealData,
     apiCocktailData,
     setApiCocktailData,
+    mealsCategorys,
+    setMealscategorys,
+    drinksCategorys,
+    setDrinksCategorys,
   };
   return (
     <context.Provider value={ contextValue }>

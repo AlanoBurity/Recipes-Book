@@ -4,16 +4,19 @@ import SearchBar from '../components/SearchBar';
 import Recipes from '../components/Recipes';
 import context from '../context/Context';
 import fetchCocktailApi from '../services/fetchCocktailApi';
+import fetchDrinksCategorys from '../services/fetchDrinksCategorys';
 
 function Drinks(props) {
   const { location: { pathname } } = props;
   const { history } = props;
-  const { apiCocktailData, setApiCocktailData } = useContext(context);
+  const { apiCocktailData, setApiCocktailData, setDrinksCategorys } = useContext(context);
 
   useEffect(() => {
     const getDrinks = async () => {
       const drinksResponse = await fetchCocktailApi('', 's');
       setApiCocktailData(drinksResponse);
+      const drinksCategorys = await fetchDrinksCategorys();
+      setDrinksCategorys(drinksCategorys);
     };
     getDrinks();
   }, []);

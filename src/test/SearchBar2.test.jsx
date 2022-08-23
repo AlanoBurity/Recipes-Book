@@ -5,9 +5,7 @@ import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
 import mealsByIngredient from '../../cypress/mocks/mealsByIngredient';
-import emptyMeals from '../../cypress/mocks/emptyMeals';
 import cocktailDrinks from '../../cypress/mocks/cocktailDrinks';
-import oneMeal from '../../cypress/mocks/oneMeal';
 
 describe('SearchBar component', () => {
   test('food page', async () => {
@@ -47,51 +45,6 @@ describe('SearchBar component', () => {
 
     global.fetch.mockRestore();
   });
-
-  test('food page empty response', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(emptyMeals),
-    }));
-
-    await act(async () => {
-      renderWithRouter(<App />);
-    });
-    const search = screen.getByRole('img', { name: /search/i });
-    userEvent.click(search);
-
-    const searchInput = screen.getByTestId('search-input');
-    const nameRadio = screen.getByRole('radio', { name: /name/i });
-    const searchBtn = screen.getByRole('button', { name: /search filter/i });
-
-    userEvent.type(searchInput, 'xablau');
-    userEvent.click(nameRadio);
-    userEvent.click(searchBtn);
-
-    global.fetch.mockRestore();
-  });
-
-  test('food page one response', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(oneMeal),
-    }));
-
-    await act(async () => {
-      renderWithRouter(<App />);
-    });
-    const search = screen.getByRole('img', { name: /search/i });
-    userEvent.click(search);
-
-    const searchInput = screen.getByRole('textbox');
-    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
-    const searchBtn = screen.getByRole('button', { name: /search filter/i });
-
-    userEvent.type(searchInput, 'Chicken');
-    userEvent.click(ingredientRadio);
-    userEvent.click(searchBtn);
-
-    global.fetch.mockRestore();
-  });
-
   test('drink page', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve(cocktailDrinks),

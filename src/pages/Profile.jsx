@@ -9,8 +9,7 @@ function Profile() {
 
   useEffect(() => {
     const convertedEmail = JSON.parse(localStorage.getItem('user'));
-    if (convertedEmail !== null) setUserEmailOnLocalStorage(convertedEmail.email);
-    else setUserEmailOnLocalStorage(userEmailOnLocalStorage);
+    setUserEmailOnLocalStorage(convertedEmail.email);
   }, []);
 
   const clearStorage = () => localStorage.clear();

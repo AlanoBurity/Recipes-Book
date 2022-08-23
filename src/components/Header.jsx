@@ -11,7 +11,7 @@ function Header({ titulo, searchInput }) {
   const history = useHistory();
   // console.log(history);
   return (
-    <header>
+    <header className="container-header">
       <div>
         <button
           data-testid="profile"

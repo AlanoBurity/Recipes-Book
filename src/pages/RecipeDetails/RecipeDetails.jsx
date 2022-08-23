@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import context from '../../context/Context';
 import FoodRecipeDetails from './FoodRecipeDetails';
+import DrinkRecipeDetails from './DrinkRecipeDetails';
 
 function RecipeDetails() {
   const { setRecipeDetailsData } = useContext(context);
@@ -33,7 +34,7 @@ function RecipeDetails() {
 
   const rederRecipeDetails = () => {
     if (isFood) return <FoodRecipeDetails />;
-    return renderDrinkDetails();
+    return <DrinkRecipeDetails />;
   };
 
   return (

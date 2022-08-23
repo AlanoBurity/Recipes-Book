@@ -1,33 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 // import { useHistory, useParams } from 'react-router-dom';
-import Image from 'react-bootstrap/Image';
+import context from '../../context/Context';
 import StartRecipeBTN from '../../components/StartRecipeBTN';
+import fetchMealApi from '../../services/fetchMealApi';
 
 function DrinkRecipeDetails() {
-  const { recipeDetailsData: data } = useContext(context);
+  const [isLoading, setIsLoading] = useState(true);
+  const { recipeDetailsData: data, apiMealData: recData,
+    setApiMealData } = useContext(context);
+  useEffect(() => {
+    setIsLoading(true);
+    const getMeal = async () => {
+      const mealsResponse = await fetchMealApi('', 's');
+      setApiMealData(mealsResponse);
+      setIsLoading(false);
+    };
+    getMeal();
+  }, []);
+  const LIMIT = 6;
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions,
-    strGlass } = data.meals[0];
-
-  console.log(data.meals[0]);
-
-  // "https://www.youtube.com/watch?v=Ds1Jb8H5Sg8"
-  // "https://www.youtube.com/embed/Ds1Jb8H5Sg8"
+    strGlass } = data.drinks[0];
 
   const renderIngredientsList = () => {
     const regexForIngredients = /strIngredient\d/gi;
     const regexForMeasure = /strMeasure\d/gi;
-    const propriedades = Object.keys(data.meals[0]);
+    const propriedades = Object.keys(data.drinks[0]);
     const ingredientes = propriedades.filter((propriedade) => (
       propriedade.match(regexForIngredients)));
     const medidas = propriedades.filter((propriedade) => (
       propriedade.match(regexForMeasure)));
     return ingredientes.map((ingrediente, index) => {
       let retorno;
-      if (data.meals[0][ingrediente] !== null
-        && data.meals[0][ingrediente].length > 0) {
+      if (data.drinks[0][ingrediente] !== null
+        && data.drinks[0][ingrediente].length > 0) {
         retorno = (
-          <li>
-            {`${data.meals[0][ingrediente]} - ${data.meals[0][medidas[index]]}`}
+          <li
+            key={ `${index}${data.drinks[0][ingrediente]}` }
+            data-testid={ `${index}-ingredient-name-and-measure` }
+          >
+            {`${data.drinks[0][ingrediente]} - ${data.drinks[0][medidas[index]]}`}
           </li>
         );
       }
@@ -36,10 +47,9 @@ function DrinkRecipeDetails() {
   };
   return (
     <div>
-      <Image
+      <img
         src={ strDrinkThumb }
         alt={ strDrink }
-        roundedCircle
         data-testid="recipe-photo"
       />
       <h1 data-testid="recipe-title">{strDrink}</h1>
@@ -53,6 +63,20 @@ function DrinkRecipeDetails() {
       <h2>Instructions</h2>
       <p data-testid="instructions">{strInstructions}</p>
       <p>{strGlass}</p>
+      <h2>Recommended</h2>
+      <div className="scroll-horizontal">
+        {isLoading ? 'carregando'
+          : recData.meals.slice(0, LIMIT).map((meal, index) => (
+            <div
+              data-testid={ `${index}-recomendation-card` }
+              key={ `${meal.strMeal}${index}` }
+            >
+              <img src={ meal.strMealThumb } alt={ meal.strMeal } />
+              <h2>{meal.strMeal}</h2>
+              <h1>{meal.strCategory}</h1>
+            </div>
+          ))}
+      </div>
       <StartRecipeBTN />
     </div>
   );

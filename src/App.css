@@ -82,3 +82,31 @@ body {
     transform: rotate(-10deg);
   }
 }
+
+.scroll-horizontal div img{
+  max-height: 120px;
+  max-width: 120px;
+  flex: 1;
+	margin: 5px;
+}
+.scroll-horizontal div h1,h2{
+  font-size: 1em;
+}
+.scroll-horizontal {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  height: 210px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.scroll-horizontal div{
+  flex: 1;
+	margin: 5px;
+}
+.botoes-modal {
+  position: fixed;
+  bottom: 0;
+  right: 0; 
+}

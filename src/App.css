@@ -1,3 +1,12 @@
+body {
+  border: 2px black;
+  left: 37%;
+  max-height: 640px;
+  max-width: 360px;
+  position: relative;
+  top: 29%;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;

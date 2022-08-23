@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import context from '../context/Context';
 import fetchCocktailApi from '../services/fetchCocktailApi';
 import fetchMealApi from '../services/fetchMealApi';
+import '../styles/SearchBar.css';
 
 function SearchBar(props) {
   const {
@@ -70,6 +71,7 @@ function SearchBar(props) {
   return (
     <div>
       <input
+        className="input-text"
         data-testid="search-input"
         type="text"
         value={ searchName }

@@ -5,11 +5,14 @@ import context from './Context';
 const Provider = ({ children }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recipeDetailsData, setRecipeDetailsData] = useState({});
   const contextValue = {
     email,
     setEmail,
     password,
     setPassword,
+    recipeDetailsData,
+    setRecipeDetailsData,
   };
   return (
     <context.Provider value={ contextValue }>

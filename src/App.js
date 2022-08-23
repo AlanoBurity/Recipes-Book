@@ -5,23 +5,34 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import RecipeDetails from './pages/RecipeDetails/RecipeDetails';
 import Provider from './context/Provider';
+import Foods from './pages/Foods';
+import Drinks from './pages/Drinks';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
+import DetailsRecipes from './pages/DetailsRecipes';
 
 function App() {
   return (
     <BrowserRouter>
       <Provider>
         <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/foods" />
-          <Route exact path="/drinks" />
-          <Route exact path="/foods/:id" component={ RecipeDetails } />
-          <Route exact path="/drinks/:id" component={ RecipeDetails } />
-          <Route exact path="/foods/:id/in-progress" />
-          <Route exact path="/drinks/:id/in-progress" />
-          <Route exact path="/profile" />
-          <Route exact path="/done-recipes" />
-          <Route exact path="/favorite-recipes" />
-          <Route path="/*" component={ NotFound } />
+          <Route path="/" exact component={ Login } />
+          <Route path="/foods" exact component={ Foods } />
+          <Route path="/drinks" exact component={ Drinks } />
+          <Route path="foods/:id" exact component={ RecipeDetails } />
+          <Route path="drinks/:id" exact component={ RecipeDetails } />
+          <Route path="foods/:id/in-progress" exact />
+          <Route path="drinks/:id/in-progress" exact />
+          <Route path="/profile" exact component={ Profile } />
+          <Route path="/done-recipes" exact component={ DoneRecipes } />
+          <Route path="/favorite-recipes" exact component={ FavoriteRecipes } />
+          <Route path="/foods/:id" exact />
+          <Route path="/drinks/:id" exact />
+          <Route path="/foods/:id/in-progress" exact />
+          <Route path="/drinks/:id/in-progress" exact />
+          <Route path="/detailsrecipes" exact component={ DetailsRecipes } />
+          <Route path="/" exact component={ Login } />
         </Switch>
       </Provider>
     </BrowserRouter>

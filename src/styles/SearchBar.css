@@ -1,0 +1,9 @@
+.input-text {
+  display: flex;
+  flex-direction: row;
+  height: 15px;
+  justify-content: space-around;
+  left: 95px;
+  padding: 3px;
+  width: 300px;
+}

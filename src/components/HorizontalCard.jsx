@@ -29,11 +29,6 @@ function HorizontalCard(props) {
     setFavoriteRecipes(removeFav);
   };
 
-  useEffect(() => {
-    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (localFavs !== null) setFavoriteRecipes(localFavs);
-  }, []);
-
   // mock favoriteRecipes
   // const mockFav = [
   //   {

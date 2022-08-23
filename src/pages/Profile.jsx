@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
@@ -8,8 +9,7 @@ function Profile() {
 
   useEffect(() => {
     const convertedEmail = JSON.parse(localStorage.getItem('user'));
-    if (convertedEmail !== null) setUserEmailOnLocalStorage(convertedEmail.email);
-    else setUserEmailOnLocalStorage(userEmailOnLocalStorage);
+    setUserEmailOnLocalStorage(convertedEmail.email);
   }, []);
 
   const clearStorage = () => localStorage.clear();
@@ -48,7 +48,7 @@ function Profile() {
       >
         Logout
       </button>
-
+      <Footer />
     </div>
   );
 }

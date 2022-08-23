@@ -38,6 +38,13 @@ body {
 }
 */
 
+.footer {
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+  width: 90%;
+}
+
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;

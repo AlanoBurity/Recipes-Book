@@ -1,47 +1,83 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Profile from '../pages/Profile';
-import renderWithRouter from './helper/renderWithRouter';
+import render from './helper/renderWithRouter';
+import App from '../App';
 
 describe('Testing Profile Page', () => {
   it('test buttons on page', () => {
-    render(<Profile />);
+    render(<App />);
 
-    const emailRender = screen.getByRole('heading');
+    const emailInput = screen.getByTestId('email-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const buttonSubmit = screen.getByTestId('login-submit-btn');
+
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+    expect(buttonSubmit).toBeInTheDocument();
+
+    const emailTest = 'email@test.com';
+    const passwordTest = '1231231';
+
+    userEvent.type(emailInput, emailTest);
+    userEvent.type(passwordInput, passwordTest);
+
+    userEvent.click(buttonSubmit);
+
+    const btnProfile = screen.getByRole('img', { name: /profile/i });
+
+    userEvent.click(btnProfile);
+    const emailRender = screen.getByTestId('profile-email');
     const bttnLogout = screen.getByRole('button', { name: /logout/i });
     const bttnFavoriteRecipes = screen.getByRole('button', { name: /favorite recipes/i });
     const bttnDoneRecipes = screen.getByRole('button', { name: /done recipes/i });
+    const bttnDrinks = screen.getByTestId('drinks-bottom-btn');
+    const bttnFoods = screen.getByTestId('food-bottom-btn');
 
     expect(bttnDoneRecipes).toBeInTheDocument();
     expect(bttnFavoriteRecipes).toBeInTheDocument();
     expect(bttnLogout).toBeInTheDocument();
     expect(emailRender).toBeInTheDocument();
-  });
-  it('test logout btn redirect do login page', () => {
-    const { history } = renderWithRouter(<Profile />);
-    const bttnLogout = screen.getByRole('button', { name: /logout/i });
-
-    userEvent.click(bttnLogout);
-    const { pathname } = history.location;
-    expect(pathname).toBe('/');
-  });
-  it('test favorite recipes btn redirecto to favorite recipes ', () => {
-    const { history } = renderWithRouter(<Profile />);
-    const bttnFavoriteRecipes = screen.getByRole('button', { name: /favorite recipes/i });
-
-    userEvent.click(bttnFavoriteRecipes);
-    const { pathname } = history.location;
-    expect(pathname).toBe('/favorite-recipes');
-  });
-  it('test done recipes btn redirect to done recipesS', () => {
-    const { history } = renderWithRouter(<Profile />);
-    const bttnDoneRecipes = screen.getByRole('button', { name: /done recipes/i });
+    expect(bttnDrinks).toBeInTheDocument();
+    expect(bttnFoods).toBeInTheDocument();
 
     userEvent.click(bttnDoneRecipes);
-    const { pathname } = history.location;
-    expect(pathname).toBe('/done-recipes');
   });
-  it('test done recipes btn', () => {
+
+  it('test buttonss ons page', () => {
+    render(<App />);
+
+    const btnProfile = screen.getByRole('img', { name: /profile/i });
+
+    userEvent.click(btnProfile);
+    const bttnFavoriteRecipes = screen.getByRole('button', { name: /favorite recipes/i });
+
+    expect(bttnFavoriteRecipes).toBeInTheDocument();
+
+    userEvent.click(bttnFavoriteRecipes);
+  });
+  it('test buttons ons page', () => {
+    render(<App />);
+
+    const btnProfile = screen.getByRole('img', { name: /profile/i });
+
+    userEvent.click(btnProfile);
+
+    const bttnDrinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(bttnDrinks);
+  });
+  it('test buttons ons page', () => {
+    render(<App />);
+
+    const btnProfile = screen.getByRole('img', { name: /profile/i });
+
+    userEvent.click(btnProfile);
+
+    const bttnLogout = screen.getByRole('button', { name: /logout/i });
+
+    expect(bttnLogout).toBeInTheDocument();
+
+    userEvent.click(bttnLogout);
   });
 });

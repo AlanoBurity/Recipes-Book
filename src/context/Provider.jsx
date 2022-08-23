@@ -11,6 +11,8 @@ const Provider = ({ children }) => {
   const [apiMealData, setApiMealData] = useState({});
   const [apiCocktailData, setApiCocktailData] = useState({});
   const [copyText, setCopyText] = useState('');
+  const [mealsCategorys, setMealscategorys] = useState({});
+  const [drinksCategorys, setDrinksCategorys] = useState({});
 
   const contextValue = {
     email,
@@ -29,6 +31,10 @@ const Provider = ({ children }) => {
     setApiCocktailData,
     copyText,
     setCopyText,
+    mealsCategorys,
+    setMealscategorys,
+    drinksCategorys,
+    setDrinksCategorys,
   };
   return (
     <context.Provider value={ contextValue }>

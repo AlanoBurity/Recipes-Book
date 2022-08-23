@@ -82,9 +82,47 @@ function RecipeInProgress() {
     checkbox8: false,
   };
   const [checked, setChecked] = useState(initialChecked);
-
+  const disableFinish = {
+    checkbox1: checked.checkbox1,
+  };
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
+  };
+
+  const renderIngredientsList = () => {
+    const regexForIngredients = /strIngredient\d/gi;
+    const regexForMeasure = /strMeasure\d/gi;
+    const propriedades = Object.keys(mock[0]);
+    const ingredientes = propriedades.filter((propriedade) => (
+      propriedade.match(regexForIngredients)));
+    const medidas = propriedades.filter((propriedade) => (
+      propriedade.match(regexForMeasure)));
+    return ingredientes.map((ingrediente, index) => {
+      let retorno;
+      if (mock[0][ingrediente] !== null
+        && mock[0][ingrediente].length > 0) {
+        retorno = (
+          <form>
+            <input
+              name="checkbox1"
+              value={ checked.checkbox1 }
+              onChange={ handleChange }
+              type="checkbox"
+              id="ingredient1"
+              data-testid="0-ingredient-step"
+            />
+            <label
+              htmlFor="ingredient1"
+              className={ checked.checkbox1 ? 'done' : '' }
+            >
+              {`${mock[0][ingrediente]} - ${mock[0][medidas[index]]}`}
+            </label>
+          </form>
+
+        );
+      }
+      return retorno;
+    });
   };
 
   return (
@@ -97,133 +135,18 @@ function RecipeInProgress() {
             { item.strMeal}
           </h3>
           <p data-testid="recipe-category">{item.strCategory}</p>
-          <form>
-            <input
-              name="checkbox1"
-              value={ checked.checkbox1 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient1"
-              data-testid="0-ingredient-step"
-
-            />
-            <label
-              htmlFor="ingredient1"
-              className={ checked.checkbox1 ? 'done' : '' }
-            >
-              { item.strIngredient1 }
-
-            </label>
-            <input
-              name="checkbox2"
-              value={ checked.checkbox2 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient2"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient2"
-              className={ checked.checkbox2 ? 'done' : '' }
-            >
-              { item.strIngredient2 }
-
-            </label>
-            <input
-              name="checkbox3"
-              value={ checked.checkbox3 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient3"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient3"
-              className={ checked.checkbox3 ? 'done' : '' }
-            >
-              { item.strIngredient3}
-
-            </label>
-            <input
-              name="checkbox4"
-              value={ checked.checkbox4 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient4"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient4"
-              className={ checked.checkbox4 ? 'done' : '' }
-            >
-              { item.strIngredient4 }
-
-            </label>
-            <input
-              name="checkbox5"
-              value={ checked.checkbox5 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient5"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient5"
-              className={ checked.checkbox5 ? 'done' : '' }
-            >
-              { item.strIngredient5 }
-
-            </label>
-            <input
-              name="checkbox6"
-              value={ checked.checkbox6 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient6"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient6"
-              className={ checked.checkbox6 ? 'done' : '' }
-            >
-              { item.strIngredient6 }
-
-            </label>
-            <input
-              name="checkbox7"
-              value={ checked.checkbox7 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient7"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient7"
-              className={ checked.checkbox7 ? 'done' : '' }
-            >
-              { item.strIngredient7 }
-
-            </label>
-            <input
-              name="checkbox8"
-              value={ checked.checkbox8 }
-              onChange={ handleChange }
-              type="checkbox"
-              id="ingredient8"
-              data-testid="0-ingredient-step"
-            />
-            <label
-              htmlFor="ingredient8"
-              className={ checked.checkbox8 ? 'done' : '' }
-            >
-              { item.strIngredient8 }
-
-            </label>
-          </form>
+          {renderIngredientsList()}
           <button type="button" data-testid="share-btn">Share</button>
           <button type="button" data-testid="favorite-btn">Favorite</button>
           <p data-testid="instructions">{item.strInstructions}</p>
-          <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+          <button
+            type="button"
+            data-testid="finish-recipe-btn"
+          >
+            Finish Recipe
+
+          </button>
+
         </main>
       ))}
 

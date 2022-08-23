@@ -1,22 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
-import RecipesCard from '../components/RecipesCard';
+import Recipes from '../components/Recipes';
 import context from '../context/Context';
+import fetchCocktailApi from '../services/fetchCocktailApi';
+import fetchDrinksCategorys from '../services/fetchDrinksCategorys';
 
 function Drinks(props) {
   const { location: { pathname } } = props;
   const { history } = props;
-  const { apiCocktailData, searchBtn } = useContext(context);
+  const { apiCocktailData,
+    setApiCocktailData,
+    setDrinksCategorys,
+    searchBtn,
+  } = useContext(context);
+
+  useEffect(() => {
+    const getDrinks = async () => {
+      const drinksResponse = await fetchCocktailApi('', 's');
+      setApiCocktailData(drinksResponse);
+      const drinksCategorys = await fetchDrinksCategorys();
+      setDrinksCategorys(drinksCategorys);
+    };
+    getDrinks();
+  }, []);
 
   return (
     <>
       <Header titulo="Drinks" searchInput />
       { searchBtn && <SearchBar pathname={ pathname } history={ history } /> }
       <p>drinks</p>
-      {apiCocktailData.drinks ? <RecipesCard /> : null}
+      { apiCocktailData.drinks && <Recipes pathname={ pathname } history={ history } />}
       <Footer />
     </>
   );

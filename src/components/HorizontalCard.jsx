@@ -14,11 +14,19 @@ function HorizontalCard(props) {
     favoriteRecipes,
     setFavoriteRecipes,
   } = useContext(context);
+
   const history = useHistory();
+
   const handleCopyUrl = () => {
     setCopyText(history.location.pathname);
     copy(copyText);
     global.alert(`You have copied "${copyText}"`);
+  };
+
+  const handleDesFavPage = ({ target: { name } }) => {
+    const removeFav = favoriteRecipes.filter(({ id }) => id !== name);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
+    setFavoriteRecipes(removeFav);
   };
 
   useEffect(() => {
@@ -101,26 +109,21 @@ function HorizontalCard(props) {
 
                 </p>
                 <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-                <button
-                  type="button"
+                <input
+                  type="image"
                   onClick={ () => {} }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    src={ shareIcon }
-                    alt="shareIcon"
-                  />
-                </button>
-                <button
-                  type="button"
-                  onClick={ () => {} }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-favorite-btn` }
-                    src={ blackHeartIcon }
-                    alt="blackHeartIcon"
-                  />
-                </button>
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  src={ shareIcon }
+                  alt="shareIcon"
+                />
+                <input
+                  name={ recipe.id }
+                  type="image"
+                  onClick={ handleDesFavPage }
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                  src={ blackHeartIcon }
+                  alt="blackHeartIcon"
+                />
               </div>
             </div>
           ))}

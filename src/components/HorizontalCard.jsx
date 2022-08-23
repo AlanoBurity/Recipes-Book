@@ -95,7 +95,9 @@ function HorizontalCard(props) {
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
-                  {`${recipe.nationality} - ${recipe.category}`}
+                  { recipe.alcoholicOrNot
+                    ? recipe.alcoholicOrNot
+                    : `${recipe.nationality} - ${recipe.category}`}
 
                 </p>
                 <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>

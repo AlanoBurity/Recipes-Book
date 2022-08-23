@@ -28,7 +28,9 @@
   transform-origin: 60px 78px;
 }
 */
-
+.done {
+  text-decoration: line-through;
+}
 .footer {
   bottom: 0;
   position: fixed;

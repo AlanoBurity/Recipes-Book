@@ -31,7 +31,6 @@ function App() {
           <Route path="/foods/:id/in-progress" exact />
           <Route path="/drinks/:id/in-progress" exact />
           <Route path="/detailsrecipes" exact component={ DetailsRecipes } />
-          <Route path="/" exact component={ Login } />
         </Switch>
       </Provider>
     </BrowserRouter>

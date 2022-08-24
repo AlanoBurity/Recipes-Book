@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import HorizontalCard from '../components/HorizontalCard';
 
-function DoneRecipes() {
+function DoneRecipes(props) {
+  const { location: { pathname } } = props;
   return (
     <div>
       <Header titulo="Done Recipes" searchInput={ false } />
@@ -28,11 +30,17 @@ function DoneRecipes() {
 
         {/* map do arquivo de receitas prontas requisito anterior */}
         <div>
-          <HorizontalCard />
+          <HorizontalCard pathname={ pathname } />
         </div>
       </section>
     </div>
   );
 }
+
+DoneRecipes.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+};
 
 export default DoneRecipes;

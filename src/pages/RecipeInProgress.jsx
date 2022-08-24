@@ -1,28 +1,39 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import '../App.css';
+import FavPageButtons from '../components/FavPageButtons';
 import context from '../context/Context';
 
 function RecipeInProgress() {
-  const { apiCocktailData,
-    setApiCocktailData,
-    setDrinksCategorys,
-    searchBtn,
-  } = useContext(context);
+  const history = useHistory();
+  const { id } = useParams();
+  const { location } = history;
+  const { pathname } = location;
+  const [checked, setChecked] = useState('');
+  const [isLoading, setIsLoading] = useState('');
+  const [isFood, setIsFood] = useState('');
+  const [recipeProgress, setRecipeProgress] = useState('');
+  const [ingredientsIndex, setIngredientsIndex] = useState([]);
 
   useEffect(() => {
-    const getDrinks = async () => {
-      const drinksResponse = await fetchCocktailApi('', 's');
-      setApiCocktailData(drinksResponse);
-      const drinksCategorys = await fetchDrinksCategorys();
-      setDrinksCategorys(drinksCategorys);
+    setIsLoading(true);
+    let endPoint = '';
+    if (pathname.includes('drinks')) {
+      endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+      setIsFood(false);
+    } else if (pathname.includes('foods')) {
+      endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      setIsFood(true);
+    }
+
+    const fetchById = async (url) => {
+      const data = await fetch(url).then((response) => response.json());
+      setRecipeProgress(data);
+      console.log(data);
+      setIsLoading(false);
     };
-    getDrinks();
+    fetchById(endPoint);
   }, []);
-  console.log(apiCocktailData);
-  const history = useHistory();
-  const [checked, setChecked] = useState('');
-  const [ingredientsIndex, setIngredientsIndex] = useState([]);
 
   const mock = [{
     idMeal: '52771',
@@ -98,52 +109,83 @@ function RecipeInProgress() {
     }
   }, []);
 
+  const test = [];
+
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
-    const ingredientsLength = document.querySelector('#form');
-    console.log(ingredientsLength[1]);
-    localStorage.setItem('checked', JSON.stringify(checked));
   };
 
   const renderIngredientsList = () => {
-    const regexForIngredients = /strIngredient\d/gi;
-    const regexForMeasure = /strMeasure\d/gi;
-    const propriedades = Object.keys(mock[0]);
-    const ingredientes = propriedades.filter((propriedade) => (
-      propriedade.match(regexForIngredients)));
-    const medidas = propriedades.filter((propriedade) => (
-      propriedade.match(regexForMeasure)));
-    return ingredientes.map((ingrediente, index) => {
-      let retorno;
-      if (mock[0][ingrediente] !== null
-        && mock[0][ingrediente].length > 0) {
-        retorno = (
-          <div key={ index }>
-            <input
-              name={ index }
-              value={ checked[index] }
-              onChange={ handleChange }
-              type="checkbox"
-              id={ index }
-              checked={ checked[index] }
-            />
-            <label
-              htmlFor={ index }
-              className={ checked[index] ? 'done' : '' }
-            >
-              {`${mock[0][ingrediente]} - ${mock[0][medidas[index]]}`}
-            </label>
-          </div>
+    if (isLoading === false) {
+      const regexForIngredients = /strIngredient\d/gi;
+      const regexForMeasure = /strMeasure\d/gi;
+      const propriedades = Object.keys(recipeProgress.meals[0]);
+      const ingredientes = propriedades.filter((propriedade) => (
+        propriedade.match(regexForIngredients)));
+      const medidas = propriedades.filter((propriedade) => (
+        propriedade.match(regexForMeasure)));
+      if (typeof test === 'object') {
+        return ingredientes.map((ingrediente, index) => {
+          let retorno;
+          if (recipeProgress.meals[0][ingrediente] !== null
+          && recipeProgress.meals[0][ingrediente].length > 0) {
+            retorno = (
+              <div key={ index }>
+                <input
+                  name={ index }
+                  value={ checked[index] }
+                  onChange={ handleChange }
+                  type="checkbox"
+                  id={ index }
+                  checked={ test[index] }
+                />
+                <label
+                  htmlFor={ index }
+                  className={ checked[index] ? 'done' : '' }
+                >
+                  {`${recipeProgress.meals[0][ingrediente]} - 
+                ${recipeProgress.meals[0][medidas[index]]}`}
+                </label>
+              </div>
 
-        );
+            );
+          }
+          return retorno;
+        });
       }
-      return retorno;
-    });
+      return ingredientes.map((ingrediente, index) => {
+        let retorno;
+        if (recipeProgress.meals[0][ingrediente] !== null
+        && recipeProgress.meals[0][ingrediente].length > 0) {
+          retorno = (
+            <div key={ index }>
+              <input
+                name={ index }
+                value={ checked[index] }
+                onChange={ handleChange }
+                type="checkbox"
+                id={ index }
+              />
+              <label
+                htmlFor={ index }
+                className={ checked[index] ? 'done' : '' }
+              >
+                {`${recipeProgress.meals[0][ingrediente]} - 
+              ${recipeProgress.meals[0][medidas[index]]}`}
+              </label>
+            </div>
+
+          );
+        }
+        return retorno;
+      });
+    }
   };
 
   const finishRecipeValidation = () => {
     const checkedValues = Object.values(checked);
-    if (checkedValues.filter((item) => item === true).length !== ingredientsIndex) {
+    console.log(ingredientsIndex);
+    if (checkedValues.map((item) => item === true).length === ingredientsIndex) {
       return true;
     }
   };
@@ -158,10 +200,10 @@ function RecipeInProgress() {
           </h3>
           <p data-testid="recipe-category">{item.strCategory}</p>
           <form id="form">
-            {renderIngredientsList()}
+            { renderIngredientsList()}
           </form>
           <button type="button" data-testid="share-btn">Share</button>
-          <button type="button" data-testid="favorite-btn">Favorite</button>
+          <FavPageButtons />
           <p data-testid="instructions">{item.strInstructions}</p>
           <button
             type="button"

@@ -5,6 +5,7 @@ import fetchCocktailApi from '../services/fetchCocktailApi';
 import fetchDrinksFilterCategory from '../services/fetchDrinksFilterCategory';
 import fetchMealApi from '../services/fetchMealApi';
 import fetchMealsFilterCategory from '../services/fetchMealsFilterCategory';
+import '../styles/RecipesCard.css';
 
 const numberRenderItems = 12;
 const numberMaxCategorys = 5;

@@ -10,6 +10,7 @@ const Provider = ({ children }) => {
   const [radioSearch, setRadioSearch] = useState('');
   const [apiMealData, setApiMealData] = useState({});
   const [apiCocktailData, setApiCocktailData] = useState({});
+  const [copyText, setCopyText] = useState('');
   const [mealsCategorys, setMealscategorys] = useState({});
   const [drinksCategorys, setDrinksCategorys] = useState({});
 
@@ -28,6 +29,8 @@ const Provider = ({ children }) => {
     apiMealData,
     apiCocktailData,
     setApiCocktailData,
+    copyText,
+    setCopyText,
     mealsCategorys,
     setMealscategorys,
     drinksCategorys,

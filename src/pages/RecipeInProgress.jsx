@@ -1,7 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import '../App.css';
+import context from '../context/Context';
 
 function RecipeInProgress() {
+  const { apiCocktailData,
+    setApiCocktailData,
+    setDrinksCategorys,
+    searchBtn,
+  } = useContext(context);
+
+  useEffect(() => {
+    const getDrinks = async () => {
+      const drinksResponse = await fetchCocktailApi('', 's');
+      setApiCocktailData(drinksResponse);
+      const drinksCategorys = await fetchDrinksCategorys();
+      setDrinksCategorys(drinksCategorys);
+    };
+    getDrinks();
+  }, []);
+  console.log(apiCocktailData);
+  const history = useHistory();
+  const [checked, setChecked] = useState('');
+  const [ingredientsIndex, setIngredientsIndex] = useState([]);
+
   const mock = [{
     idMeal: '52771',
     strMeal: 'Spicy Arrabiata Penne',
@@ -68,25 +90,19 @@ function RecipeInProgress() {
     strCreativeCommonsConfirmed: null,
     dateModified: null,
   }];
-  // const { location: { pathname } } = props;
-  // const { history } = props;
-  // const { apiCocktailData, searchBtn } = useContext(context);
-  const initialChecked = {
-    checkbox1: false,
-    checkbox2: false,
-    checkbox3: false,
-    checkbox4: false,
-    checkbox5: false,
-    checkbox6: false,
-    checkbox7: false,
-    checkbox8: false,
-  };
-  const [checked, setChecked] = useState(initialChecked);
-  const disableFinish = {
-    checkbox1: checked.checkbox1,
-  };
+
+  useEffect(() => {
+    const ingredientsLength = document.querySelector('#form');
+    if (typeof ingredientsLength === 'object') {
+      setIngredientsIndex(ingredientsLength.length);
+    }
+  }, []);
+
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
+    const ingredientsLength = document.querySelector('#form');
+    console.log(ingredientsLength[1]);
+    localStorage.setItem('checked', JSON.stringify(checked));
   };
 
   const renderIngredientsList = () => {
@@ -102,22 +118,22 @@ function RecipeInProgress() {
       if (mock[0][ingrediente] !== null
         && mock[0][ingrediente].length > 0) {
         retorno = (
-          <form>
+          <div key={ index }>
             <input
-              name="checkbox1"
-              value={ checked.checkbox1 }
+              name={ index }
+              value={ checked[index] }
               onChange={ handleChange }
               type="checkbox"
-              id="ingredient1"
-              data-testid="0-ingredient-step"
+              id={ index }
+              checked={ checked[index] }
             />
             <label
-              htmlFor="ingredient1"
-              className={ checked.checkbox1 ? 'done' : '' }
+              htmlFor={ index }
+              className={ checked[index] ? 'done' : '' }
             >
               {`${mock[0][ingrediente]} - ${mock[0][medidas[index]]}`}
             </label>
-          </form>
+          </div>
 
         );
       }
@@ -125,9 +141,15 @@ function RecipeInProgress() {
     });
   };
 
+  const finishRecipeValidation = () => {
+    const checkedValues = Object.values(checked);
+    if (checkedValues.filter((item) => item === true).length !== ingredientsIndex) {
+      return true;
+    }
+  };
+
   return (
     <div>
-      {console.log(checked)}
       { mock.map((item) => (
         <main key={ item.strMeal }>
           <img data-testid="recipe-photo" src={ item.strMealThumb } alt="Cocktail" />
@@ -135,18 +157,20 @@ function RecipeInProgress() {
             { item.strMeal}
           </h3>
           <p data-testid="recipe-category">{item.strCategory}</p>
-          {renderIngredientsList()}
+          <form id="form">
+            {renderIngredientsList()}
+          </form>
           <button type="button" data-testid="share-btn">Share</button>
           <button type="button" data-testid="favorite-btn">Favorite</button>
           <p data-testid="instructions">{item.strInstructions}</p>
           <button
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ finishRecipeValidation() }
+            onClick={ () => history.push('/done-recipes') }
           >
             Finish Recipe
-
           </button>
-
         </main>
       ))}
 

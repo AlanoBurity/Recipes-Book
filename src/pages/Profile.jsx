@@ -9,7 +9,9 @@ function Profile() {
 
   useEffect(() => {
     const convertedEmail = JSON.parse(localStorage.getItem('user'));
-    setUserEmailOnLocalStorage(convertedEmail.email);
+    if (convertedEmail !== null) {
+      setUserEmailOnLocalStorage(convertedEmail.email);
+    }
   }, []);
 
   const clearStorage = () => localStorage.clear();

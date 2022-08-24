@@ -13,6 +13,7 @@ const Provider = ({ children }) => {
   const [copyText, setCopyText] = useState('');
   const [mealsCategorys, setMealscategorys] = useState({});
   const [drinksCategorys, setDrinksCategorys] = useState({});
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   const contextValue = {
     email,
@@ -35,6 +36,8 @@ const Provider = ({ children }) => {
     setMealscategorys,
     drinksCategorys,
     setDrinksCategorys,
+    favoriteRecipes,
+    setFavoriteRecipes,
   };
   return (
     <context.Provider value={ contextValue }>

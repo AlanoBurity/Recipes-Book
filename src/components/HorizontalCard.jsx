@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import copy from 'copy-to-clipboard';
+import copy from 'clipboard-copy';
 import context from '../context/Context';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -15,6 +15,7 @@ function HorizontalCard(props) {
     setFavoriteRecipes,
   } = useContext(context);
 
+  const [favLinkCopyed, setFavLinkCopyed] = useState(false);
   const history = useHistory();
 
   const handleCopyUrl = () => {
@@ -27,6 +28,13 @@ function HorizontalCard(props) {
     const removeFav = favoriteRecipes.filter(({ id }) => id !== name);
     localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
     setFavoriteRecipes(removeFav);
+  };
+
+  const handleShareFavPage = ({ target: { name } }) => {
+    setFavLinkCopyed(true);
+    const { host } = window.location;
+    const { protocol } = window.location;
+    copy(`${protocol}//${host}/${name}`);
   };
 
   // mock favoriteRecipes
@@ -108,10 +116,12 @@ function HorizontalCard(props) {
                 <Link to={ `${recipe.type}s/${recipe.id}` }>
                   <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
                 </Link>
+                { favLinkCopyed && <p>Link copied!</p>}
                 <input
                   type="image"
-                  onClick={ () => {} }
+                  onClick={ handleShareFavPage }
                   data-testid={ `${index}-horizontal-share-btn` }
+                  name={ `${recipe.type}s/${recipe.id}` }
                   src={ shareIcon }
                   alt="shareIcon"
                 />

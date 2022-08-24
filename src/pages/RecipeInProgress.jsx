@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../App.css';
 import FavPageButtons from '../components/FavPageButtons';
-import context from '../context/Context';
 
 function RecipeInProgress() {
   const history = useHistory();
@@ -11,7 +10,7 @@ function RecipeInProgress() {
   const { pathname } = location;
   const [checked, setChecked] = useState('');
   const [isLoading, setIsLoading] = useState('');
-  const [isFood, setIsFood] = useState('');
+  const [setIsFood] = useState('');
   const [recipeProgress, setRecipeProgress] = useState('');
   const [ingredientsIndex, setIngredientsIndex] = useState([]);
 
@@ -109,8 +108,6 @@ function RecipeInProgress() {
     }
   }, []);
 
-  const test = [];
-
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
   };
@@ -124,35 +121,6 @@ function RecipeInProgress() {
         propriedade.match(regexForIngredients)));
       const medidas = propriedades.filter((propriedade) => (
         propriedade.match(regexForMeasure)));
-      if (typeof test === 'object') {
-        return ingredientes.map((ingrediente, index) => {
-          let retorno;
-          if (recipeProgress.meals[0][ingrediente] !== null
-          && recipeProgress.meals[0][ingrediente].length > 0) {
-            retorno = (
-              <div key={ index }>
-                <input
-                  name={ index }
-                  value={ checked[index] }
-                  onChange={ handleChange }
-                  type="checkbox"
-                  id={ index }
-                  checked={ test[index] }
-                />
-                <label
-                  htmlFor={ index }
-                  className={ checked[index] ? 'done' : '' }
-                >
-                  {`${recipeProgress.meals[0][ingrediente]} - 
-                ${recipeProgress.meals[0][medidas[index]]}`}
-                </label>
-              </div>
-
-            );
-          }
-          return retorno;
-        });
-      }
       return ingredientes.map((ingrediente, index) => {
         let retorno;
         if (recipeProgress.meals[0][ingrediente] !== null

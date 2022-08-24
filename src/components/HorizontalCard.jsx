@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 import context from '../context/Context';
 import shareIcon from '../images/shareIcon.svg';
@@ -89,11 +89,13 @@ function HorizontalCard(props) {
         <div>
           {favoriteRecipes.map((recipe, index) => (
             <div key={ recipe.id }>
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt={ recipe.name }
-              />
+              <Link to={ `${recipe.type}s/${recipe.id}` }>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt={ recipe.name }
+                />
+              </Link>
               <div>
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
@@ -103,7 +105,9 @@ function HorizontalCard(props) {
                     : `${recipe.nationality} - ${recipe.category}`}
 
                 </p>
-                <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+                <Link to={ `${recipe.type}s/${recipe.id}` }>
+                  <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+                </Link>
                 <input
                   type="image"
                   onClick={ () => {} }

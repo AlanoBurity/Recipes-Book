@@ -15,20 +15,19 @@ function StartRecipeButton() {
     const inProgressRecipeObj = JSON.parse(localStorage.getItem('inProgressRecipes'));
     setButtonRecipeDone(false);
     if (doneRecipesArray !== null) {
-      const test = doneRecipesArray.some((e) => e.id === id);
-      console.log(test);
-      setButtonRecipeDone(test);
+      const hasId = doneRecipesArray.some((e) => e.id === id);
+      setButtonRecipeDone(hasId);
     }
 
     if (inProgressRecipeObj !== null) {
       if (pathname.includes('drinks')) {
         const arrayOfKeys1 = Object.keys(inProgressRecipeObj.cocktails);
-        const test2 = arrayOfKeys1.some((e) => e === id);
-        setInProgressRecipe(test2);
+        const hasId2 = arrayOfKeys1.some((e) => e === id);
+        setInProgressRecipe(hasId2);
       } else if (pathname.includes('foods')) {
         const arrayOfKeys2 = Object.keys(inProgressRecipeObj.meals);
-        const test3 = arrayOfKeys2.some((e) => e === id);
-        setInProgressRecipe(test3);
+        const hasId3 = arrayOfKeys2.some((e) => e === id);
+        setInProgressRecipe(hasId3);
       }
     }
   }, []);

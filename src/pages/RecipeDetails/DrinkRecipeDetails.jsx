@@ -1,17 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react';
-// import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import copy from 'clipboard-copy';
 import context from '../../context/Context';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import fetchMealApi from '../../services/fetchMealApi';
 import './RecipeDetail.css';
+import shareIcon from '../../images/shareIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function DrinkRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
   const { recipeDetailsData: data,
     setApiMealData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
+  const history = useHistory();
+  const { location: { pathname } } = history;
+  const [favLinkCopyed, setFavLinkCopyed] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+  const { id } = useParams();
+
   useEffect(() => {
     setIsLoading(true);
     const getMeal = async () => {
@@ -26,6 +36,15 @@ function DrinkRecipeDetails() {
     getMeal();
     setButtonRecipeDone(false);
   }, []);
+
+  useEffect(() => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (localFavs !== null) {
+      const hasFav = localFavs.some((e) => e.id === id);
+      setIsFav(hasFav);
+    }
+  }, []);
+
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions,
     strGlass } = data.drinks[0];
 
@@ -54,6 +73,14 @@ function DrinkRecipeDetails() {
     });
   };
 
+  const handleShareFavPage = () => {
+    setFavLinkCopyed(true);
+    const { host } = window.location;
+    const { protocol } = window.location;
+    console.log(pathname);
+    copy(`${protocol}//${host}${pathname}`);
+  };
+
   return (
     <div>
       <img
@@ -62,6 +89,26 @@ function DrinkRecipeDetails() {
         data-testid="recipe-photo"
       />
       <h1 data-testid="recipe-title">{strDrink}</h1>
+
+      <input
+        type="image"
+        onClick={ handleShareFavPage }
+        data-testid="share-btn"
+        // name={ `${recipe.type}s/${recipe.id}` }
+        src={ shareIcon }
+        alt="shareIcon"
+      />
+      { favLinkCopyed && <p>Link copied!</p>}
+
+      <input
+        // name={ recipe.id }
+        type="image"
+        onClick={ () => {} }
+        data-testid="favorite-btn"
+        src={ isFav ? blackHeartIcon : whiteHeartIcon }
+        alt="favorite"
+      />
+
       <h2 data-testid="recipe-category">{strAlcoholic}</h2>
       <h2>Ingredients</h2>
       <ul>

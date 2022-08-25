@@ -33,6 +33,7 @@ function SearchBar(props) {
         notFound();
         return;
       }
+      console.log(meals.meals);
       if (meals === undefined) return;
       setApiMealData(meals);
       setSearchName('');

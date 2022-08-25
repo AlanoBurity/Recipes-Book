@@ -1,24 +1,9 @@
-div .horizontal-scroll{
+div .horizontal-scroll {
   border: solid 1px red;
   display: flex;
   flex-direction: row;
-  /* gap: 0 500px; */
   height: 210px;
-  /* overflow-x: scroll;
-  overflow-y: hidden; */
   overflow: auto;
   white-space: nowrap;
   width: 300px;
 }
-/*
-div .card {
-}
-div .card:hover {
-}
-img .card-img {
-}
-h2 .card-title {
-}
-h1 .card-category {
-}
-*/

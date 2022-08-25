@@ -10,19 +10,22 @@ function RecipeInProgress() {
   const { pathname } = location;
   const [checked, setChecked] = useState('');
   const [isLoading, setIsLoading] = useState('');
-  const [setIsFood] = useState('');
+  // const [isFood, setIsFood] = useState(true);
   const [recipeProgress, setRecipeProgress] = useState('');
   const [ingredientsIndex, setIngredientsIndex] = useState([]);
 
+  // useEffect que faz a requisição da api quando monta o componente
   useEffect(() => {
+    const ingredientsLength = document.querySelector('#form');
+    if (typeof ingredientsLength === 'object') {
+      setIngredientsIndex(ingredientsLength.length);
+    }
     setIsLoading(true);
     let endPoint = '';
     if (pathname.includes('drinks')) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      setIsFood(false);
     } else if (pathname.includes('foods')) {
       endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      setIsFood(true);
     }
 
     const fetchById = async (url) => {
@@ -100,13 +103,6 @@ function RecipeInProgress() {
     strCreativeCommonsConfirmed: null,
     dateModified: null,
   }];
-
-  useEffect(() => {
-    const ingredientsLength = document.querySelector('#form');
-    if (typeof ingredientsLength === 'object') {
-      setIngredientsIndex(ingredientsLength.length);
-    }
-  }, []);
 
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });

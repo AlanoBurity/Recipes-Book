@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import { useHistory, useParams } from 'react-router-dom';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import context from '../../context/Context';
-import StartRecipeBTN from '../../components/StartRecipeBTN';
+import StartRecipeButton from '../../components/StartRecipeButton';
 import fetchMealApi from '../../services/fetchMealApi';
 import './RecipeDetail.css';
 
@@ -12,7 +11,7 @@ function DrinkRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
   const { recipeDetailsData: data,
-    setApiMealData } = useContext(context);
+    setApiMealData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
   useEffect(() => {
     setIsLoading(true);
     const getMeal = async () => {
@@ -25,6 +24,7 @@ function DrinkRecipeDetails() {
       setIsLoading(false);
     };
     getMeal();
+    setButtonRecipeDone(false);
   }, []);
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions,
     strGlass } = data.drinks[0];
@@ -54,14 +54,6 @@ function DrinkRecipeDetails() {
     });
   };
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
   return (
     <div>
       <img
@@ -83,30 +75,26 @@ function DrinkRecipeDetails() {
       <h2>Recommended</h2>
       <div className="scroll-horizontal2">
         {isLoading ? 'carregando'
-          : (
-            <Slider { ...settings }>
-              { limitRecomendation
-                .map((meal, index) => (
-                  <div
-                    data-testid={ `${index}-recomendation-card` }
-                    key={ `${meal.strMeal}${index}` }
-                    className="imagem"
-                  >
-                    <img
-                      src={ meal.strMealThumb }
-                      alt={ meal.strMeal }
-                    />
-                    <h2 data-testid={ `${index}-recomendation-title` }>
-                      {meal.strMeal}
+          : (limitRecomendation
+            .map((meal, index) => (
+              <div
+                data-testid={ `${index}-recomendation-card` }
+                key={ `${meal.strMeal}${index}` }
+                className="imagem"
+              >
+                <img
+                  src={ meal.strMealThumb }
+                  alt={ meal.strMeal }
+                />
+                <h2 data-testid={ `${index}-recomendation-title` }>
+                  {meal.strMeal}
 
-                    </h2>
-                    <h1>{meal.strCategory}</h1>
-                  </div>
-                ))}
-
-            </Slider>)}
+                </h2>
+                <h1>{meal.strCategory}</h1>
+              </div>
+            )))}
       </div>
-      <StartRecipeBTN />
+      {!buttonRecipeDone && <StartRecipeButton /> }
     </div>
   );
 }

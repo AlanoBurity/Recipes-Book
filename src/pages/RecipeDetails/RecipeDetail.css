@@ -1,34 +1,24 @@
-.scroll-horizontal {
+div .horizontal-scroll{
   border: solid 1px red;
   display: flex;
   flex-direction: row;
-  gap: 0 500px;
+  /* gap: 0 500px; */
   height: 210px;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  /* overflow-x: scroll;
+  overflow-y: hidden; */
+  overflow: auto;
   white-space: nowrap;
   width: 300px;
 }
-
-.scroll-horizontal2 {
-  display: flex;
-  flex-direction: row;
-  gap: 0 150px;
-  height: 210px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  width: auto;
+/*
+div .card {
 }
-
-.botoes-modal {
-  bottom: 0;
-  position: fixed;
-  right: 0;
+div .card:hover {
 }
-
-.imagem {
-  border: solid 1px red;
-  display: block;
-  width: 50%;
+img .card-img {
 }
+h2 .card-title {
+}
+h1 .card-category {
+}
+*/

@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import { useHistory, useParams } from 'react-router-dom';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import context from '../../context/Context';
-import StartRecipeBTN from '../../components/StartRecipeBTN';
+import StartRecipeButton from '../../components/StartRecipeButton';
 import './RecipeDetail.css';
 import fetchCocktailApi from '../../services/fetchCocktailApi';
 
@@ -12,7 +11,7 @@ function FoodRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
   const { recipeDetailsData: data,
-    setApiCocktailData, buttonRecipeDone } = useContext(context);
+    setApiCocktailData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
   useEffect(() => {
     setIsLoading(true);
     const getDrinks = async () => {
@@ -24,15 +23,8 @@ function FoodRecipeDetails() {
       setIsLoading(false);
     };
     getDrinks();
+    setButtonRecipeDone(false);
   }, []);
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   // desustruturando o obj { meals: [{}] }
   const { strMeal, strMealThumb, strCategory, strInstructions,
@@ -105,27 +97,35 @@ function FoodRecipeDetails() {
         <iframe width="300" height="300" src={ `https://www.youtube.com/embed/${urlId}` } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen data-testid="video" />
       </div>
       <h2>Recommended</h2>
-      {isLoading ? 'carregando'
-        : (
-          <Slider { ...settings }>
-            { limitRecomendation
-              .map((drink, index) => (
-                <div
-                  data-testid={ `${index}-recomendation-card` }
-                  key={ `${drink.strDrink}${index}` }
-                  className="imagem"
+      <div className="horizontal-scroll">
+        {isLoading ? 'carregando'
+          : (limitRecomendation
+            .map((drink, index) => (
+              <div
+                data-testid={ `${index}-recomendation-card` }
+                key={ `${drink.strDrink}${index}` }
+                className="card"
+              >
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                  className="card-img"
+                />
+                <h2
+                  data-testid={ `${index}-recomendation-title` }
+                  className="card-title"
                 >
-                  <img
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                  />
-                  <h2 data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</h2>
-                  <h1>{drink.strCategory}</h1>
-                </div>
-              ))}
-
-          </Slider>)}
-      {buttonRecipeDone && <StartRecipeBTN /> }
+                  {drink.strDrink}
+                </h2>
+                <h1
+                  className="card-category"
+                >
+                  {drink.strCategory}
+                </h1>
+              </div>
+            )))}
+      </div>
+      {!buttonRecipeDone && <StartRecipeButton /> }
 
     </div>
   );

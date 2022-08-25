@@ -20,22 +20,13 @@ function App() {
           <Route path="/" exact component={ Login } />
           <Route path="/foods" exact component={ Foods } />
           <Route path="/drinks" exact component={ Drinks } />
-          <Route path="foods/:id" exact />
-          <Route path="drinks/:id" exact />
           <Route path="/foods/:id" exact component={ RecipeDetails } />
           <Route path="/drinks/:id" exact component={ RecipeDetails } />
-          <Route path="foods/:id/in-progress" exact />
-          <Route path="drinks/:id/in-progress" exact />
           <Route path="/profile" exact component={ Profile } />
           <Route path="/done-recipes" exact component={ DoneRecipes } />
           <Route path="/favorite-recipes" exact component={ FavoriteRecipes } />
           <Route path="/foods/:id/in-progress" component={ RecipeInProgress } exact />
           <Route path="/drinks/:id/in-progress" exact />
-          <Route path="/foods/:id" exact />
-          <Route path="/drinks/:id" exact />
-          <Route path="/foods/:id/in-progress" exact />
-          <Route path="/drinks/:id/in-progress" exact />
-          <Route path="/" exact component={ Login } />
           <Route path="/*" exact component={ NotFound } />
         </Switch>
       </Provider>

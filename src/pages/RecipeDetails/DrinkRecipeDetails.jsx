@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import { useHistory, useParams } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import Slider from 'react-slick';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import context from '../../context/Context';
 import StartRecipeBTN from '../../components/StartRecipeBTN';
 import fetchMealApi from '../../services/fetchMealApi';
@@ -54,13 +54,13 @@ function DrinkRecipeDetails() {
     });
   };
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // const settings = {
+  //   dots: false,
+  //   infinite: false,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
 
   return (
     <div>
@@ -83,28 +83,24 @@ function DrinkRecipeDetails() {
       <h2>Recommended</h2>
       <div className="scroll-horizontal2">
         {isLoading ? 'carregando'
-          : (
-            <Slider { ...settings }>
-              { limitRecomendation
-                .map((meal, index) => (
-                  <div
-                    data-testid={ `${index}-recomendation-card` }
-                    key={ `${meal.strMeal}${index}` }
-                    className="imagem"
-                  >
-                    <img
-                      src={ meal.strMealThumb }
-                      alt={ meal.strMeal }
-                    />
-                    <h2 data-testid={ `${index}-recomendation-title` }>
-                      {meal.strMeal}
+          : limitRecomendation
+            .map((meal, index) => (
+              <div
+                data-testid={ `${index}-recomendation-card` }
+                key={ `${meal.strMeal}${index}` }
+                className="imagem"
+              >
+                <img
+                  src={ meal.strMealThumb }
+                  alt={ meal.strMeal }
+                />
+                <h2 data-testid={ `${index}-recomendation-title` }>
+                  {meal.strMeal}
 
-                    </h2>
-                    <h1>{meal.strCategory}</h1>
-                  </div>
-                ))}
-
-            </Slider>)}
+                </h2>
+                <h1>{meal.strCategory}</h1>
+              </div>
+            ))}
       </div>
       <StartRecipeBTN />
     </div>

@@ -10,10 +10,10 @@ function RecipeInProgress() {
   const { pathname } = location;
   const [checked, setChecked] = useState('');
   const [isLoading, setIsLoading] = useState('');
-  const [setIsFood] = useState('');
+  const [isFood, setIsFood] = useState('');
   const [recipeProgress, setRecipeProgress] = useState('');
   const [ingredientsIndex, setIngredientsIndex] = useState([]);
-
+  console.log(isFood);
   useEffect(() => {
     setIsLoading(true);
     let endPoint = '';

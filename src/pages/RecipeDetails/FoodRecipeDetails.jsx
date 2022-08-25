@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import { useHistory, useParams } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import Slider from 'react-slick';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import context from '../../context/Context';
 import StartRecipeBTN from '../../components/StartRecipeBTN';
 import './RecipeDetail.css';
@@ -26,13 +26,13 @@ function FoodRecipeDetails() {
     getDrinks();
   }, []);
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // const settings = {
+  //   dots: false,
+  //   infinite: false,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
 
   // desustruturando o obj { meals: [{}] }
   const { strMeal, strMealThumb, strCategory, strInstructions,
@@ -106,25 +106,22 @@ function FoodRecipeDetails() {
       </div>
       <h2>Recommended</h2>
       {isLoading ? 'carregando'
-        : (
-          <Slider { ...settings }>
-            { limitRecomendation
-              .map((drink, index) => (
-                <div
-                  data-testid={ `${index}-recomendation-card` }
-                  key={ `${drink.strDrink}${index}` }
-                  className="imagem"
-                >
-                  <img
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                  />
-                  <h2 data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</h2>
-                  <h1>{drink.strCategory}</h1>
-                </div>
-              ))}
+        : limitRecomendation
+          .map((drink, index) => (
+            <div
+              data-testid={ `${index}-recomendation-card` }
+              key={ `${drink.strDrink}${index}` }
+              className="imagem"
+            >
+              <img
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrink }
+              />
+              <h2 data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</h2>
+              <h1>{drink.strCategory}</h1>
+            </div>
+          ))}
 
-          </Slider>)}
       {buttonRecipeDone && <StartRecipeBTN /> }
 
     </div>

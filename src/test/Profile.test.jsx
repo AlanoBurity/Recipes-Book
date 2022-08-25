@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import render from './helper/renderWithRouter';
 import App from '../App';
+import Profile from '../pages/Profile';
 
 describe('Testing Profile Page', () => {
   it('test buttons on page', () => {
@@ -67,7 +68,7 @@ describe('Testing Profile Page', () => {
 
     userEvent.click(bttnDrinks);
   });
-  it('test buttons ons page', () => {
+  it('test buttons onsasdasdad page', () => {
     render(<App />);
 
     const btnProfile = screen.getByRole('img', { name: /profile/i });
@@ -79,5 +80,10 @@ describe('Testing Profile Page', () => {
     expect(bttnLogout).toBeInTheDocument();
 
     userEvent.click(bttnLogout);
+  });
+  it('test buttons onsdasdas page', () => {
+    const { history } = render(<Profile />);
+
+    expect(history.location.pathname).toBe('/');
   });
 });

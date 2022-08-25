@@ -8,7 +8,7 @@ function StartRecipeButton() {
   const { id } = useParams();
   const { pathname } = history.location;
   const { setButtonRecipeDone } = useContext(context);
-  const [inProgressRecipes, setInProgressRecipes] = useState();
+  const [inProgressRecipe, setInProgressRecipe] = useState();
 
   useEffect(() => {
     const doneRecipesArray = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -24,11 +24,11 @@ function StartRecipeButton() {
       if (pathname.includes('drinks')) {
         const arrayOfKeys1 = Object.keys(inProgressRecipeObj.cocktails);
         const test2 = arrayOfKeys1.some((e) => e === id);
-        setInProgressRecipes(test2);
+        setInProgressRecipe(test2);
       } else if (pathname.includes('foods')) {
         const arrayOfKeys2 = Object.keys(inProgressRecipeObj.meals);
         const test3 = arrayOfKeys2.some((e) => e === id);
-        setInProgressRecipes(test3);
+        setInProgressRecipe(test3);
       }
     }
   }, []);
@@ -41,7 +41,7 @@ function StartRecipeButton() {
         onClick={ () => history.push(`${pathname}/in-progress`) }
         style={ { position: 'fixed', bottom: 0 } }
       >
-        {inProgressRecipes ? 'Continue Recipe' : 'Start Recipe' }
+        {inProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
 
       </button>
     </div>

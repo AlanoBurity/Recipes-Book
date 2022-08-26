@@ -5,6 +5,7 @@ import context from './Context';
 const Provider = ({ children }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recipeDetailsData, setRecipeDetailsData] = useState({});
   const [searchBtn, setSearchBtn] = useState(false);
   const [searchName, setSearchName] = useState('');
   const [radioSearch, setRadioSearch] = useState('');
@@ -13,7 +14,6 @@ const Provider = ({ children }) => {
   const [mealsCategorys, setMealscategorys] = useState({});
   const [drinksCategorys, setDrinksCategorys] = useState({});
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  const [selected, setSelected] = useState('');
   const [doneRec, setDoneRec] = useState([{
     id: '',
     type: '',
@@ -24,11 +24,15 @@ const Provider = ({ children }) => {
     image: '',
     doneDate: '',
     tags: [] }]);
+  const [buttonRecipeDone, setButtonRecipeDone] = useState(true);
+
   const contextValue = {
     email,
     setEmail,
     password,
     setPassword,
+    recipeDetailsData,
+    setRecipeDetailsData,
     searchBtn,
     setSearchBtn,
     searchName,
@@ -45,10 +49,10 @@ const Provider = ({ children }) => {
     setDrinksCategorys,
     favoriteRecipes,
     setFavoriteRecipes,
-    selected,
-    setSelected,
     doneRec,
     setDoneRec,
+    buttonRecipeDone,
+    setButtonRecipeDone,
   };
   return (
     <context.Provider value={ contextValue }>

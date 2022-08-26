@@ -19,7 +19,7 @@ function HorizontalCard(props) {
 
   const handleCopy = async (id) => {
     navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
-    alert('Link copied!')
+    alert('Link copied!');
   }; // referencia https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
   const handleDesFavPage = ({ target: { name } }) => {
@@ -89,7 +89,7 @@ function HorizontalCard(props) {
               src={ shareIcon }
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ () => handleCopy(elem.id)}
+              onClick={ () => handleCopy(elem.id) }
             >
               <img src={ shareIcon } alt="shareIcon" />
             </button>

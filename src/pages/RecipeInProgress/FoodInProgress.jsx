@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import shareIcon from '../../images/shareIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import '../../App.css';
 
 function FoodInProgress() {
@@ -12,9 +16,54 @@ function FoodInProgress() {
   const [isFood, setIsFood] = useState('');
   const [recipeProgress, setRecipeProgress] = useState('');
   const [ingredientsIndex, setIngredientsIndex] = useState([]);
+  const [favLinkCopyed, setFavLinkCopyed] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+  useEffect(() => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (localFavs !== null) {
+      const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
+      setIsFav(hasFav);
+    }
+  }, []);
+  const hadleSetFav = () => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    // quando não é favoritado e ja tem favoriteRecipes no local storage
+    const favObj = {
+      id,
+      type: 'food',
+      nationality: recipeProgress.meals[0].strArea,
+      category: recipeProgress.meals[0].strCategory,
+      alcoholicOrNot: '',
+      name: recipeProgress.meals[0].strMeal,
+      image: recipeProgress.meals[0].strMealThumb,
+    };
+    if (localFavs !== null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...localFavs, favObj]));
+      setIsFav(true);
+      return;
+    }
+    // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
+    if (localFavs === null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
+      setIsFav(true);
+      return;
+    }
+    if (localFavs !== null && isFav) {
+      const removeFav = localFavs.filter((fav) => fav.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
+      setIsFav(false);
+    }
+  };
+  const handleShareFavPage = () => {
+    setFavLinkCopyed(true);
+    const { host } = window.location;
+    const { protocol } = window.location;
+    copy(`${protocol}//${host}/drinks/${id}`);
+    navigator.clipboard.writeText(`${protocol}/${host}/drinks/${id}`);
+  };
   useEffect(() => {
     setIsLoading(true);
-    let endPoint = '';
+    let endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     if (pathname.includes('drinks')) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       setIsFood(false);
@@ -23,7 +72,6 @@ function FoodInProgress() {
       setIsFood(true);
       console.log(isFood);
     }
-
     const fetchById = async (url) => {
       const data = await fetch(url).then((response) => response.json());
       setRecipeProgress(data);
@@ -32,19 +80,26 @@ function FoodInProgress() {
     };
     fetchById(endPoint);
   }, []);
-
   useEffect(() => {
     const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const inProgressRecipes = {
-      cocktails: { ...inProgressArray.cocktails,
+    if (inProgressArray !== null) {
+      const inProgressRecipes = {
+        cocktails: { ...inProgressArray.cocktails,
+        },
+        meals: { ...inProgressArray.meals,
+          [id]: '',
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    }
+    const firstInprogress = {
+      cocktails: {
       },
-      meals: { ...inProgressArray.meals,
-        [id]: '',
+      meals: { [id]: '',
       },
     };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    localStorage.setItem('inProgressRecipes', JSON.stringify(firstInprogress));
   }, []);
-
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
     const ingredientsLength = document.querySelector('#form');
@@ -52,7 +107,6 @@ function FoodInProgress() {
       setIngredientsIndex(ingredientsLength.length);
     }
   };
-
   const renderIngredientsList = () => {
     if (isLoading === false) {
       const regexForIngredients = /strIngredient\d/gi;
@@ -90,14 +144,12 @@ ${recipeProgress.meals[0][medidas[index]]}`}
       });
     }
   };
-
   const finishRecipeValidation = () => {
     const checkedValues = Object.values(checked);
     if (checkedValues.filter((item) => item === true).length !== ingredientsIndex) {
       return true;
     }
   };
-
   const finishRecipe = () => {
     const arrayDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const correctDate = () => {
@@ -140,7 +192,6 @@ ${recipeProgress.meals[0][medidas[index]]}`}
     localStorage.setItem('doneRecipes', JSON.stringify(firstDoneRecipe));
     history.push('/done-recipes');
   };
-
   const renderMeal = () => {
     if (isLoading === false) {
       return (
@@ -158,8 +209,21 @@ ${recipeProgress.meals[0][medidas[index]]}`}
             <form id="form">
               {renderIngredientsList()}
             </form>
-            <button type="button" data-testid="share-btn">Share</button>
-            <button type="button" data-testid="favorite-btn">Favorite</button>
+            <input
+              type="image"
+              onClick={ handleShareFavPage }
+              data-testid="share-btn"
+              src={ shareIcon }
+              alt="shareIcon"
+            />
+            { favLinkCopyed && <p>Link copied!</p>}
+            <input
+              type="image"
+              onClick={ hadleSetFav }
+              data-testid="favorite-btn"
+              src={ isFav ? blackHeartIcon : whiteHeartIcon }
+              alt="favorite"
+            />
             <p data-testid="instructions">{recipeProgress.meals[0].strInstructions}</p>
             <button
               type="button"
@@ -174,7 +238,6 @@ ${recipeProgress.meals[0][medidas[index]]}`}
     }
     return (<div>Carregando...</div>);
   };
-
   return (
     <div>
       {renderMeal()}
@@ -182,8 +245,6 @@ ${recipeProgress.meals[0][medidas[index]]}`}
     </div>
   );
 }
-
 FoodInProgress.propTypes = {
 };
-
 export default FoodInProgress;

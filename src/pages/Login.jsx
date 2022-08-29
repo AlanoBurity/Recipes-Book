@@ -1,17 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import context from '../context/Context';
 
 function Login() {
-  const inProgressRecipes = {
-    cocktails: {
-    },
-    meals: {
-    },
-  };
-  useEffect(() => {
-    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
-  }, []);
   const history = useHistory();
   const { email,
     setEmail,
@@ -39,6 +30,13 @@ function Login() {
     localStorage.setItem('user', JSON.stringify({ email }));
     localStorage.setItem('mealsToken', JSON.stringify(1));
     localStorage.setItem('cocktailsToken', JSON.stringify(1));
+    const inProgressRecipes = {
+      cocktails: {
+      },
+      meals: {
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     history.push('/foods');
   };
 

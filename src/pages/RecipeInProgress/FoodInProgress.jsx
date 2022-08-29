@@ -33,6 +33,18 @@ function FoodInProgress() {
     fetchById(endPoint);
   }, []);
 
+  useEffect(() => {
+    const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const inProgressRecipes = {
+      cocktails: { ...inProgressArray.cocktails,
+      },
+      meals: { ...inProgressArray.meals,
+        [id]: '',
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+  }, []);
+
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
     const ingredientsLength = document.querySelector('#form');

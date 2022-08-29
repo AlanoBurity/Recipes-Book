@@ -34,7 +34,15 @@ function DrinkInProgress() {
   }, []);
 
   useEffect(() => {
-
+    const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const inProgressRecipes = {
+      cocktails: { ...inProgressArray.cocktails,
+        [id]: '',
+      },
+      meals: { ...inProgressArray.meals,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
   }, []);
 
   const handleChange = (event) => {

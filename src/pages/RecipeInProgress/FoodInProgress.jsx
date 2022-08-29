@@ -86,6 +86,49 @@ ${recipeProgress.meals[0][medidas[index]]}`}
     }
   };
 
+  const finishRecipe = () => {
+    const arrayDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const correctDate = () => {
+      const date = new Date();
+      const maxMounth = 9;
+      if (date.getMonth() > maxMounth) {
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+      }
+      return `${date.getDate()}/0${date.getMonth()}/${date.getFullYear()}`;
+    };
+    const firstDoneRecipe = [{
+      id,
+      type: 'food',
+      nationality: recipeProgress.meals[0].strArea,
+      category: recipeProgress.meals[0].strCategory,
+      alcoholicOrNot: '',
+      name: recipeProgress.meals[0].strMeal,
+      image: recipeProgress.meals[0].strMealThumb,
+      doneDate: correctDate(),
+      tags: recipeProgress.meals[0].strTags,
+    }];
+
+    if (arrayDoneRecipes !== null) {
+      const doneRecipes = [...arrayDoneRecipes,
+        {
+          id,
+          type: 'food',
+          nationality: recipeProgress.meals[0].strArea,
+          category: recipeProgress.meals[0].strCategory,
+          alcoholicOrNot: '',
+          name: recipeProgress.meals[0].strMeal,
+          image: recipeProgress.meals[0].strMealThumb,
+          doneDate: correctDate(),
+          tags: recipeProgress.meals[0].strTags,
+        }];
+      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+      history.push('/done-recipes');
+      return;
+    }
+    localStorage.setItem('doneRecipes', JSON.stringify(firstDoneRecipe));
+    history.push('/done-recipes');
+  };
+
   const renderMeal = () => {
     if (isLoading === false) {
       return (
@@ -110,7 +153,7 @@ ${recipeProgress.meals[0][medidas[index]]}`}
               type="button"
               data-testid="finish-recipe-btn"
               disabled={ finishRecipeValidation() }
-              onClick={ () => history.push('/done-recipes') }
+              onClick={ () => finishRecipe() }
             >
               Finish Recipe
             </button>

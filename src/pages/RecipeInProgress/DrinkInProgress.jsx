@@ -33,6 +33,10 @@ function DrinkInProgress() {
     fetchById(endPoint);
   }, []);
 
+  useEffect(() => {
+
+  }, []);
+
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
     const ingredientsLength = document.querySelector('#form');
@@ -86,6 +90,49 @@ ${recipeProgress.drinks[0][medidas[index]]}`}
     }
   };
 
+  const finishRecipe = () => {
+    const arrayDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const correctDate = () => {
+      const date = new Date();
+      const maxMounth = 9;
+      if (date.getMonth() > maxMounth) {
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+      }
+      return `${date.getDate()}/0${date.getMonth()}/${date.getFullYear()}`;
+    };
+    const firstDoneRecipe = [{
+      id,
+      type: 'drink',
+      nationality: recipeProgress.drinks[0].strArea,
+      category: recipeProgress.drinks[0].strCategory,
+      alcoholicOrNot: '',
+      name: recipeProgress.drinks[0].strDrink,
+      image: recipeProgress.drinks[0].strDrinkThumb,
+      doneDate: correctDate(),
+      tags: recipeProgress.drinks[0].strTags,
+    }];
+
+    if (arrayDoneRecipes !== null) {
+      const doneRecipes = [...arrayDoneRecipes,
+        {
+          id,
+          type: 'drink',
+          nationality: recipeProgress.drinks[0].strArea,
+          category: recipeProgress.drinks[0].strCategory,
+          alcoholicOrNot: recipeProgress.drinks[0].strAlcoholic,
+          name: recipeProgress.drinks[0].strDrink,
+          image: recipeProgress.drinks[0].strDrinkThumb,
+          doneDate: correctDate(),
+          tags: recipeProgress.drinks[0].strTags,
+        }];
+      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+      history.push('/done-recipes');
+      return;
+    }
+    localStorage.setItem('doneRecipes', JSON.stringify(firstDoneRecipe));
+    history.push('/done-recipes');
+  };
+
   const renderDrink = () => {
     if (isLoading === false) {
       return (
@@ -110,7 +157,7 @@ ${recipeProgress.drinks[0][medidas[index]]}`}
               type="button"
               data-testid="finish-recipe-btn"
               disabled={ finishRecipeValidation() }
-              onClick={ () => history.push('/done-recipes') }
+              onClick={ () => finishRecipe() }
             >
               Finish Recipe
             </button>

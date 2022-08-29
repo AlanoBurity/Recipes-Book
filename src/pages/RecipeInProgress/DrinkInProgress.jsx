@@ -62,7 +62,7 @@ function DrinkInProgress() {
     const { host } = window.location;
     const { protocol } = window.location;
     copy(`${protocol}//${host}/drinks/${id}`);
-    navigator.clipboard.writeText(`${protocol}/${host}/drinks/${id}`);
+    navigator.clipboard.writeText(copy(`${protocol}//${host}/drinks/${id}`));
   };
   useEffect(() => {
     setIsLoading(true);

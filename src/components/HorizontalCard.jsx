@@ -19,7 +19,7 @@ function HorizontalCard(props) {
 
   const handleCopy = async (id) => {
     navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
-    alert('Link copied!');
+    setFavLinkCopyed(true);
   }; // referencia https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
   const handleDesFavPage = ({ target: { name } }) => {
@@ -93,6 +93,7 @@ function HorizontalCard(props) {
             >
               <img src={ shareIcon } alt="shareIcon" />
             </button>
+            { favLinkCopyed && <p>Link copied!</p>}
             <p
               data-testid={ `${index}-${elem.tags[0]}-horizontal-tag` }
             >
@@ -131,6 +132,7 @@ function HorizontalCard(props) {
               data-testid={ `${index}-horizontal-share-btn` }
               onClick={ () => handleCopy(elem.id) }
             >
+              { favLinkCopyed && <p>Link copied!</p>}
               <img src={ shareIcon } alt="shareIcon" />
             </button>
           </div>
@@ -160,7 +162,6 @@ function HorizontalCard(props) {
                 <Link to={ `${recipe.type}s/${recipe.id}` }>
                   <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
                 </Link>
-                { favLinkCopyed && <p>Link copied!</p>}
                 <input
                   type="image"
                   onClick={ handleShareFavPage }

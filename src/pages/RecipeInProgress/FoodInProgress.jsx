@@ -59,7 +59,7 @@ function FoodInProgress() {
     const { host } = window.location;
     const { protocol } = window.location;
     copy(`${protocol}//${host}/drinks/${id}`);
-    navigator.clipboard.writeText(`${protocol}/${host}/drinks/${id}`);
+    navigator.clipboard.writeText(copy(`${protocol}//${host}/foods/${id}`));
   };
   useEffect(() => {
     setIsLoading(true);

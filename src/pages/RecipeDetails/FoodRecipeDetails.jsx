@@ -1,44 +1,67 @@
 import React, { useContext, useState, useEffect } from 'react';
-// import { useHistory, useParams } from 'react-router-dom';
-// import Slider from 'react-slick';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
+import { useHistory, useParams } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import context from '../../context/Context';
-import StartRecipeBTN from '../../components/StartRecipeBTN';
+import StartRecipeButton from '../../components/StartRecipeButton';
 import './RecipeDetail.css';
 import fetchCocktailApi from '../../services/fetchCocktailApi';
+import shareIcon from '../../images/shareIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function FoodRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
-  const { recipeDetailsData: data,
-    setApiCocktailData, buttonRecipeDone } = useContext(context);
+  const [favLinkCopyed, setFavLinkCopyed] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
+  const { id } = useParams();
+
+  // contexto global
+  const { recipeDetailsData: data, setApiCocktailData, buttonRecipeDone,
+    setButtonRecipeDone } = useContext(context);
+
+  // request das recomendações
   useEffect(() => {
     setIsLoading(true);
     const getDrinks = async () => {
       const LIMIT = 6;
       const drinksResponse = await fetchCocktailApi('', 's');
+      // reduz pra 6 recomendações
       const filtered = drinksResponse.drinks.slice(0, LIMIT);
       setLimitRecomendation(filtered);
       setApiCocktailData(drinksResponse);
       setIsLoading(false);
     };
     getDrinks();
+    setButtonRecipeDone(false);
   }, []);
 
-  // const settings = {
-  //   dots: false,
-  //   infinite: false,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  // };
+  // verifica se já é favoritado
+  useEffect(() => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (localFavs !== null) {
+      const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
+      setIsFav(hasFav);
+    }
+  }, []);
 
   // desustruturando o obj { meals: [{}] }
   const { strMeal, strMealThumb, strCategory, strInstructions,
-    strYoutube } = data.meals[0];
+    strYoutube, strArea } = data.meals[0];
 
-  // capturando o final da url de video
+  const favObj = {
+    id,
+    type: 'food',
+    nationality: strArea,
+    category: strCategory,
+    alcoholicOrNot: '',
+    name: strMeal,
+    image: strMealThumb,
+  };
+  // capturando o final da url de video para o embed
   // https://stackoverflow.com/questions/4758103/last-segment-of-url-with-javascript
   const url = strYoutube;
   const urlId = url.substring(url.lastIndexOf('=') + 1);
@@ -77,6 +100,42 @@ function FoodRecipeDetails() {
       return retorno;
     });
   };
+
+  // função que copia o url quando clica em compartilhar
+  const handleShareFavPage = () => {
+    setFavLinkCopyed(true);
+    const { host } = window.location;
+    const { protocol } = window.location;
+    console.log(pathname);
+    copy(`${protocol}//${host}${pathname}`);
+  };
+
+  // lida com o click no coração de favoritar
+  const hadleSetFav = () => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    // quando não é favoritado e ja tem favoriteRecipes no local storage
+    if (localFavs !== null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...localFavs, favObj]));
+      setIsFav(true);
+      return;
+    }
+
+    // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
+    if (localFavs === null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
+      setIsFav(true);
+      return;
+    }
+
+    // quando quer desfavoritar
+    if (localFavs !== null && isFav) {
+      const removeFav = localFavs.filter((fav) => fav.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
+      setIsFav(false);
+    }
+  };
+
   return (
     <div>
 
@@ -87,6 +146,23 @@ function FoodRecipeDetails() {
       />
 
       <h1 data-testid="recipe-title">{strMeal}</h1>
+
+      <input
+        type="image"
+        onClick={ handleShareFavPage }
+        data-testid="share-btn"
+        src={ shareIcon }
+        alt="shareIcon"
+      />
+      { favLinkCopyed && <p>Link copied!</p>}
+
+      <input
+        type="image"
+        onClick={ hadleSetFav }
+        data-testid="favorite-btn"
+        src={ isFav ? blackHeartIcon : whiteHeartIcon }
+        alt="favorite"
+      />
 
       <h2 data-testid="recipe-category">{strCategory}</h2>
 
@@ -105,24 +181,35 @@ function FoodRecipeDetails() {
         <iframe width="300" height="300" src={ `https://www.youtube.com/embed/${urlId}` } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen data-testid="video" />
       </div>
       <h2>Recommended</h2>
-      {isLoading ? 'carregando'
-        : limitRecomendation
-          .map((drink, index) => (
-            <div
-              data-testid={ `${index}-recomendation-card` }
-              key={ `${drink.strDrink}${index}` }
-              className="imagem"
-            >
-              <img
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-              />
-              <h2 data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</h2>
-              <h1>{drink.strCategory}</h1>
-            </div>
-          ))}
-
-      {buttonRecipeDone && <StartRecipeBTN /> }
+      <div className="horizontal-scroll">
+        {isLoading ? 'carregando'
+          : (limitRecomendation
+            .map((drink, index) => (
+              <div
+                data-testid={ `${index}-recomendation-card` }
+                key={ `${drink.strDrink}${index}` }
+                className="card"
+              >
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                  className="card-img"
+                />
+                <h2
+                  data-testid={ `${index}-recomendation-title` }
+                  className="card-title"
+                >
+                  {drink.strDrink}
+                </h2>
+                <h1
+                  className="card-category"
+                >
+                  {drink.strCategory}
+                </h1>
+              </div>
+            )))}
+      </div>
+      {!buttonRecipeDone && <StartRecipeButton /> }
 
     </div>
   );

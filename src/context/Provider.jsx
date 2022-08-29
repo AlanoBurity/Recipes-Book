@@ -11,10 +11,19 @@ const Provider = ({ children }) => {
   const [radioSearch, setRadioSearch] = useState('');
   const [apiMealData, setApiMealData] = useState({});
   const [apiCocktailData, setApiCocktailData] = useState({});
-  const [copyText, setCopyText] = useState('');
   const [mealsCategorys, setMealscategorys] = useState({});
   const [drinksCategorys, setDrinksCategorys] = useState({});
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [doneRec, setDoneRec] = useState([{
+    id: '',
+    type: '',
+    nationality: '',
+    category: '',
+    alcoholicOrNot: '',
+    name: '',
+    image: '',
+    doneDate: '',
+    tags: [] }]);
   const [buttonRecipeDone, setButtonRecipeDone] = useState(true);
 
   const contextValue = {
@@ -34,14 +43,14 @@ const Provider = ({ children }) => {
     apiMealData,
     apiCocktailData,
     setApiCocktailData,
-    copyText,
-    setCopyText,
     mealsCategorys,
     setMealscategorys,
     drinksCategorys,
     setDrinksCategorys,
     favoriteRecipes,
     setFavoriteRecipes,
+    doneRec,
+    setDoneRec,
     buttonRecipeDone,
     setButtonRecipeDone,
   };

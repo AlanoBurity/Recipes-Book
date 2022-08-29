@@ -132,7 +132,6 @@ function HorizontalCard(props) {
               data-testid={ `${index}-horizontal-share-btn` }
               onClick={ () => handleCopy(elem.id) }
             >
-              { favLinkCopyed && <p>Link copied!</p>}
               <img src={ shareIcon } alt="shareIcon" />
             </button>
           </div>
@@ -157,11 +156,11 @@ function HorizontalCard(props) {
                   { recipe.alcoholicOrNot
                     ? recipe.alcoholicOrNot
                     : `${recipe.nationality} - ${recipe.category}`}
-
                 </p>
                 <Link to={ `${recipe.type}s/${recipe.id}` }>
                   <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
                 </Link>
+                { favLinkCopyed && <p>Link copied!</p>}
                 <input
                   type="image"
                   onClick={ handleShareFavPage }

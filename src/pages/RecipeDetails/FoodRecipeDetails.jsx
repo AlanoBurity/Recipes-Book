@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import copy from 'clipboard-copy';
 import context from '../../context/Context';
 import StartRecipeButton from '../../components/StartRecipeButton';
@@ -14,19 +12,24 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 function FoodRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
-  const history = useHistory();
-  const { location: { pathname } } = history;
   const [favLinkCopyed, setFavLinkCopyed] = useState(false);
   const [isFav, setIsFav] = useState(false);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
   const { id } = useParams();
 
-  const { recipeDetailsData: data,
-    setApiCocktailData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
+  // contexto global
+  const { recipeDetailsData: data, setApiCocktailData, buttonRecipeDone,
+    setButtonRecipeDone } = useContext(context);
+
+  // request das recomendações
   useEffect(() => {
     setIsLoading(true);
     const getDrinks = async () => {
       const LIMIT = 6;
       const drinksResponse = await fetchCocktailApi('', 's');
+      // reduz pra 6 recomendações
       const filtered = drinksResponse.drinks.slice(0, LIMIT);
       setLimitRecomendation(filtered);
       setApiCocktailData(drinksResponse);
@@ -36,15 +39,11 @@ function FoodRecipeDetails() {
     setButtonRecipeDone(false);
   }, []);
 
+  // verifica se já é favoritado
   useEffect(() => {
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (localFavs !== null) {
-      const hasFav = localFavs.some((e) => {
-        console.log(e.id);
-        console.log(id);
-        return Number(e.id) === Number(id);
-      });
-      console.log(hasFav);
+      const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
   }, []);
@@ -62,7 +61,7 @@ function FoodRecipeDetails() {
     name: strMeal,
     image: strMealThumb,
   };
-  // capturando o final da url de video
+  // capturando o final da url de video para o embed
   // https://stackoverflow.com/questions/4758103/last-segment-of-url-with-javascript
   const url = strYoutube;
   const urlId = url.substring(url.lastIndexOf('=') + 1);
@@ -102,6 +101,7 @@ function FoodRecipeDetails() {
     });
   };
 
+  // função que copia o url quando clica em compartilhar
   const handleShareFavPage = () => {
     setFavLinkCopyed(true);
     const { host } = window.location;
@@ -110,19 +110,25 @@ function FoodRecipeDetails() {
     copy(`${protocol}//${host}${pathname}`);
   };
 
+  // lida com o click no coração de favoritar
   const hadleSetFav = () => {
-    console.log(isFav);
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    // quando não é favoritado e ja tem favoriteRecipes no local storage
     if (localFavs !== null && !isFav) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([...localFavs, favObj]));
       setIsFav(true);
       return;
     }
+
+    // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
     if (localFavs === null && !isFav) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
       setIsFav(true);
       return;
     }
+
+    // quando quer desfavoritar
     if (localFavs !== null && isFav) {
       const removeFav = localFavs.filter((fav) => fav.id !== id);
       localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
@@ -145,14 +151,12 @@ function FoodRecipeDetails() {
         type="image"
         onClick={ handleShareFavPage }
         data-testid="share-btn"
-        // name={ `${recipe.type}s/${recipe.id}` }
         src={ shareIcon }
         alt="shareIcon"
       />
       { favLinkCopyed && <p>Link copied!</p>}
 
       <input
-        // name={ recipe.id }
         type="image"
         onClick={ hadleSetFav }
         data-testid="favorite-btn"

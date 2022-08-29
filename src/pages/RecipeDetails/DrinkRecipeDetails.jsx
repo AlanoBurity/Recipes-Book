@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import copy from 'clipboard-copy';
 import context from '../../context/Context';
 import StartRecipeButton from '../../components/StartRecipeButton';
-import fetchMealApi from '../../services/fetchMealApi';
 import './RecipeDetail.css';
+import fetchMealApi from '../../services/fetchMealApi';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -14,21 +12,25 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 function DrinkRecipeDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [limitRecomendation, setLimitRecomendation] = useState([]);
-  const { recipeDetailsData: data,
-    setApiMealData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
-  const history = useHistory();
-  const { location: { pathname } } = history;
   const [favLinkCopyed, setFavLinkCopyed] = useState(false);
   const [isFav, setIsFav] = useState(false);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
   const { id } = useParams();
 
+  // contexto global
+  const { recipeDetailsData: data,
+    setApiMealData, buttonRecipeDone, setButtonRecipeDone } = useContext(context);
+
+  // request das recomendações
   useEffect(() => {
     setIsLoading(true);
     const getMeal = async () => {
       const LIMIT = 6;
       const mealsResponse = await fetchMealApi('', 's');
+      // reduz pra 6 recomendações
       const filtered = mealsResponse.meals.slice(0, LIMIT);
-      console.log(filtered);
       setLimitRecomendation(filtered);
       setApiMealData(mealsResponse);
       setIsLoading(false);
@@ -37,25 +39,47 @@ function DrinkRecipeDetails() {
     setButtonRecipeDone(false);
   }, []);
 
+  // verifica se já é favoritado
   useEffect(() => {
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (localFavs !== null) {
-      const hasFav = localFavs.some((e) => e.id === id);
+      const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
   }, []);
 
+  // desustruturando o obj { meals: [{}] }
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions,
-    strGlass } = data.drinks[0];
+    strGlass, strCategory } = data.drinks[0];
 
+  const favObj = {
+    id,
+    type: 'drink',
+    nationality: '',
+    category: strCategory,
+    alcoholicOrNot: strAlcoholic,
+    name: strDrink,
+    image: strDrinkThumb,
+  };
+
+  // func pra gerar a lista de ingredientes/medidas
   const renderIngredientsList = () => {
     const regexForIngredients = /strIngredient\d/gi;
     const regexForMeasure = /strMeasure\d/gi;
+
+    // pega todas as chaves do objeto da receita
     const propriedades = Object.keys(data.drinks[0]);
+
+    // filtra todos os ingredientes
     const ingredientes = propriedades.filter((propriedade) => (
       propriedade.match(regexForIngredients)));
+
+    // filtra todos as medidas
     const medidas = propriedades.filter((propriedade) => (
       propriedade.match(regexForMeasure)));
+
+    // faz um map no array que vai gerar a lista de ingredientes/medidas
+    // e salva em uma variavel 'retorno'
     return ingredientes.map((ingrediente, index) => {
       let retorno;
       if (data.drinks[0][ingrediente] !== null
@@ -73,12 +97,39 @@ function DrinkRecipeDetails() {
     });
   };
 
+  // função que copia o url quando clica em compartilhar
   const handleShareFavPage = () => {
     setFavLinkCopyed(true);
     const { host } = window.location;
     const { protocol } = window.location;
     console.log(pathname);
     copy(`${protocol}//${host}${pathname}`);
+  };
+
+  // lida com o click no coração de favoritar
+  const hadleSetFav = () => {
+    const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    // quando não é favoritado e ja tem favoriteRecipes no local storage
+    if (localFavs !== null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...localFavs, favObj]));
+      setIsFav(true);
+      return;
+    }
+
+    // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
+    if (localFavs === null && !isFav) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
+      setIsFav(true);
+      return;
+    }
+
+    // quando quer desfavoritar
+    if (localFavs !== null && isFav) {
+      const removeFav = localFavs.filter((fav) => fav.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
+      setIsFav(false);
+    }
   };
 
   return (
@@ -94,16 +145,14 @@ function DrinkRecipeDetails() {
         type="image"
         onClick={ handleShareFavPage }
         data-testid="share-btn"
-        // name={ `${recipe.type}s/${recipe.id}` }
         src={ shareIcon }
         alt="shareIcon"
       />
       { favLinkCopyed && <p>Link copied!</p>}
 
       <input
-        // name={ recipe.id }
         type="image"
-        onClick={ () => {} }
+        onClick={ hadleSetFav }
         data-testid="favorite-btn"
         src={ isFav ? blackHeartIcon : whiteHeartIcon }
         alt="favorite"

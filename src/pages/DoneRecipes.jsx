@@ -11,6 +11,7 @@ function DoneRecipes(props) {
   useEffect(() => {
     const recipeslocal = JSON.parse(localStorage.getItem('doneRecipes'));
     if (recipeslocal !== null) setDoneRec(recipeslocal);
+    // eslint-disable-next-line
   }, []);
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));

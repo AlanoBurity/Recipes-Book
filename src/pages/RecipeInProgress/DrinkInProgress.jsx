@@ -24,6 +24,7 @@ function DrinkInProgress() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
+    // eslint-disable-next-line
   }, []);
   const hadleSetFav = () => {
     if (isLoading === false) {
@@ -59,8 +60,7 @@ function DrinkInProgress() {
   };
   const handleShareFavPage = () => {
     setFavLinkCopyed(true);
-    const { host } = window.location;
-    const { protocol } = window.location;
+    const { host } = window.location; const { protocol } = window.location;
     copy(`${protocol}//${host}/drinks/${id}`);
     navigator.clipboard.writeText(copy(`${protocol}//${host}/drinks/${id}`));
   };
@@ -82,6 +82,7 @@ function DrinkInProgress() {
       setIsLoading(false);
     };
     fetchById(endPoint);
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -101,6 +102,7 @@ function DrinkInProgress() {
       meals: {},
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(firstInProgress));
+    // eslint-disable-next-line
   }, []);
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
@@ -139,7 +141,6 @@ function DrinkInProgress() {
 ${recipeProgress.drinks[0][medidas[index]]}`}
               </label>
             </div>
-
           );
         }
         return retorno;

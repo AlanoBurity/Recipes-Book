@@ -9,6 +9,7 @@ function FavPageButtons() {
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (localFavs !== null) setFavoriteRecipes(localFavs);
     setOriginalFavs(localFavs);
+    // eslint-disable-next-line
   }, []);
 
   const handleAllFavFilter = () => setFavoriteRecipes(origalFavs);

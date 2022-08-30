@@ -30,6 +30,7 @@ function RecipeDetails() {
       setIsLoading(false);
     };
     fetchById(endPoint);
+    // eslint-disable-next-line
   }, []);
 
   const rederRecipeDetails = () => {

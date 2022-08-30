@@ -30,6 +30,7 @@ function StartRecipeButton() {
         setInProgressRecipe(hasId3);
       }
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

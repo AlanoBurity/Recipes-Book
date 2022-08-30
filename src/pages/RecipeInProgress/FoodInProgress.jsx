@@ -24,6 +24,7 @@ function FoodInProgress() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
+    // eslint-disable-next-line
   }, []);
   const hadleSetFav = () => {
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -79,16 +80,16 @@ function FoodInProgress() {
       setIsLoading(false);
     };
     fetchById(endPoint);
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (inProgressArray !== null) {
-      const inProgressRecipes = {
-        cocktails: { ...inProgressArray.cocktails,
-        },
-        meals: { ...inProgressArray.meals,
-          [id]: '',
-        },
+      const inProgressRecipes = { cocktails: { ...inProgressArray.cocktails,
+      },
+      meals: { ...inProgressArray.meals,
+        [id]: '',
+      },
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
@@ -99,6 +100,7 @@ function FoodInProgress() {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(firstInprogress));
+    // eslint-disable-next-line
   }, []);
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
@@ -134,10 +136,9 @@ function FoodInProgress() {
                 className={ checked[index] ? 'done' : '' }
               >
                 {`${recipeProgress.meals[0][ingrediente]} - 
-${recipeProgress.meals[0][medidas[index]]}`}
+                 ${recipeProgress.meals[0][medidas[index]]}`}
               </label>
             </div>
-
           );
         }
         return retorno;
@@ -241,7 +242,6 @@ ${recipeProgress.meals[0][medidas[index]]}`}
   return (
     <div>
       {renderMeal()}
-
     </div>
   );
 }

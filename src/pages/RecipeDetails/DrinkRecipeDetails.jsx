@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import context from '../../context/Context';
+import 'swiper/swiper-bundle.css';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import './RecipeDetail.css';
 import fetchMealApi from '../../services/fetchMealApi';
@@ -37,6 +39,7 @@ function DrinkRecipeDetails() {
     };
     getMeal();
     setButtonRecipeDone(false);
+    // eslint-disable-next-line
   }, []);
 
   // verifica se já é favoritado
@@ -46,6 +49,7 @@ function DrinkRecipeDetails() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
+    // eslint-disable-next-line
   }, []);
 
   // desustruturando o obj { meals: [{}] }
@@ -169,27 +173,30 @@ function DrinkRecipeDetails() {
       <p data-testid="instructions">{strInstructions}</p>
       <p>{strGlass}</p>
       <h2>Recommended</h2>
-      <div className="scroll-horizontal2">
+      <Swiper slidesPerView={ 1 }>
         {isLoading ? 'carregando'
-          : (limitRecomendation
+          : limitRecomendation
             .map((meal, index) => (
-              <div
-                data-testid={ `${index}-recomendation-card` }
-                key={ `${meal.strMeal}${index}` }
-                className="imagem"
-              >
-                <img
-                  src={ meal.strMealThumb }
-                  alt={ meal.strMeal }
-                />
-                <h2 data-testid={ `${index}-recomendation-title` }>
-                  {meal.strMeal}
+              <SwiperSlide key={ `${meal.strMeal}${index}` }>
+                <div
+                  data-testid={ `${index}-recomendation-card` }
+                  key={ `${meal.strMeal}${index}` }
+                  className="imagem"
+                >
+                  <img
+                    src={ meal.strMealThumb }
+                    alt={ meal.strMeal }
+                    className="imagem2"
+                  />
+                  <p data-testid={ `${index}-recomendation-title` }>
+                    {meal.strMeal}
 
-                </h2>
-                <h1>{meal.strCategory}</h1>
-              </div>
-            )))}
-      </div>
+                  </p>
+                  <h1>{meal.strCategory}</h1>
+                </div>
+              </SwiperSlide>
+            ))}
+      </Swiper>
       {!buttonRecipeDone && <StartRecipeButton /> }
     </div>
   );

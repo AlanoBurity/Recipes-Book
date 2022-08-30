@@ -25,6 +25,7 @@ function Drinks(props) {
       setDrinksCategorys(drinksCategorys);
     };
     getDrinks();
+    // eslint-disable-next-line
   }, []);
 
   return (

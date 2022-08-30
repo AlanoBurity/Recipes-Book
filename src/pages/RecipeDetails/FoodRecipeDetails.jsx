@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import context from '../../context/Context';
+import 'swiper/swiper-bundle.css';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import './RecipeDetail.css';
 import fetchCocktailApi from '../../services/fetchCocktailApi';
@@ -37,6 +39,7 @@ function FoodRecipeDetails() {
     };
     getDrinks();
     setButtonRecipeDone(false);
+    // eslint-disable-next-line
   }, []);
 
   // verifica se já é favoritado
@@ -46,6 +49,7 @@ function FoodRecipeDetails() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
+    // eslint-disable-next-line
   }, []);
 
   // desustruturando o obj { meals: [{}] }
@@ -181,36 +185,37 @@ function FoodRecipeDetails() {
         <iframe width="300" height="300" src={ `https://www.youtube.com/embed/${urlId}` } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen data-testid="video" />
       </div>
       <h2>Recommended</h2>
-      <div className="horizontal-scroll">
+      <Swiper slidesPerView={ 1 }>
         {isLoading ? 'carregando'
           : (limitRecomendation
             .map((drink, index) => (
-              <div
-                data-testid={ `${index}-recomendation-card` }
-                key={ `${drink.strDrink}${index}` }
-                className="card"
-              >
-                <img
-                  src={ drink.strDrinkThumb }
-                  alt={ drink.strDrink }
-                  className="card-img"
-                />
-                <h2
-                  data-testid={ `${index}-recomendation-title` }
-                  className="card-title"
+              <SwiperSlide key={ `${drink.strDrink}${index}` }>
+                <div
+                  data-testid={ `${index}-recomendation-card` }
+                  key={ `${drink.strDrink}${index}` }
+                  className="card"
                 >
-                  {drink.strDrink}
-                </h2>
-                <h1
-                  className="card-category"
-                >
-                  {drink.strCategory}
-                </h1>
-              </div>
+                  <img
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.strDrink }
+                    className="card-img"
+                  />
+                  <h2
+                    data-testid={ `${index}-recomendation-title` }
+                    className="card-title"
+                  >
+                    {drink.strDrink}
+                  </h2>
+                  <h1
+                    className="card-category"
+                  >
+                    {drink.strCategory}
+                  </h1>
+                </div>
+              </SwiperSlide>
             )))}
-      </div>
+      </Swiper>
       {!buttonRecipeDone && <StartRecipeButton /> }
-
     </div>
   );
 }

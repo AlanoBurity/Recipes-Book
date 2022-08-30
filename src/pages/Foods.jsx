@@ -28,6 +28,7 @@ function Foods(props) {
       setMealscategorys(mealsCategorys);
     };
     getMeal();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -17,7 +17,8 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "swiper": "^6.8.4"
   },
   "scripts": {
     "cy": "cypress run",
@@ -27,7 +28,7 @@
     "test": "react-scripts test",
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx",
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx eslint-disable-next-line",
     "lint:styles": "npx stylelint '**/*.css'"
   },
   "eslintConfig": {

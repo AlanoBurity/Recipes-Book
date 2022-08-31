@@ -1,0 +1,8 @@
+.startRecipeBtn {
+  background-color: #FAE35F;
+  height: 30px;
+  left: 0px;
+  position: absolute;
+  width: 360px;
+  z-index: 1;
+}

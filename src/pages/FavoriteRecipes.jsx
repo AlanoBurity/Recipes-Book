@@ -10,8 +10,9 @@ function FavoriteRecipes(props) {
 
   return (
     <>
-      <Header titulo="Favorite Recipes" searchInput={ false } className="heade" />
+      <Header searchInput={ false } className="heade" />
       <FavPageButtons />
+      <h1 className="titlePage">Favorite Recipes</h1>
       <HorizontalCard pathname={ pathname } />
     </>
   );

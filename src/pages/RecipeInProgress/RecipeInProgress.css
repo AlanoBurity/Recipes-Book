@@ -44,3 +44,9 @@
   border-radius: 5px;
   padding: 10px;
 }
+
+.finishRecipe {
+  height: 30px;
+  width: 360px;
+  background-color: #FA796B;
+}

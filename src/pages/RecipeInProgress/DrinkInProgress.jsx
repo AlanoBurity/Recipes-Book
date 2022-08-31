@@ -241,6 +241,7 @@ ${recipeProgress.drinks[0][medidas[index]]}`}
               data-testid="finish-recipe-btn"
               disabled={ finishRecipeValidation() }
               onClick={ () => finishRecipe() }
+              className="finishRecipe"
             >
               Finish Recipe
             </button>

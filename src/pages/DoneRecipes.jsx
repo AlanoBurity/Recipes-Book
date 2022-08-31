@@ -29,7 +29,7 @@ function DoneRecipes(props) {
 
   return (
     <div>
-      <Header titulo="Done Recipes" searchInput={ false } />
+      <Header searchInput={ false } />
       <section>
         <div className="buttnsDoneRecipes">
           <button
@@ -56,6 +56,7 @@ function DoneRecipes(props) {
             Drinks
           </button>
         </div>
+        <h1 className="doneRecipesTitle">Done Recipes</h1>
 
         {/* map do arquivo de receitas prontas requisito anterior */}
         <div>

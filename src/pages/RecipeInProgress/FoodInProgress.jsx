@@ -242,6 +242,7 @@ function FoodInProgress() {
               data-testid="finish-recipe-btn"
               disabled={ finishRecipeValidation() }
               onClick={ () => finishRecipe() }
+              className="finishRecipe"
             >
               Finish Recipe
             </button>

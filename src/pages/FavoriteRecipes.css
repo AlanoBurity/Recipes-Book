@@ -31,3 +31,12 @@
 .bttnDoneRecipes {
   background-color: #FAE678;
 }
+
+.titlePage {
+  left: 80px;
+  margin-top: 5px;
+  position: absolute;
+  top: 0;
+  width: 330px;
+  z-index: 1;
+}

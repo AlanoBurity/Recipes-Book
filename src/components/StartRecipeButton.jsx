@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../App.css';
 import context from '../context/Context';
+import './StartRecipeButton.css';
 
 function StartRecipeButton() {
   const history = useHistory();
@@ -40,6 +41,7 @@ function StartRecipeButton() {
         data-testid="start-recipe-btn"
         onClick={ () => history.push(`${pathname}/in-progress`) }
         style={ { position: 'fixed', bottom: 0 } }
+        className="startRecipeBtn"
       >
         {inProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
 

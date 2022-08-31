@@ -22,7 +22,8 @@ function Profile() {
   return (
     <div>
 
-      <Header titulo="Profile" searchInput={ false } />
+      <Header searchInput={ false } />
+      <h1 className="profileh1">Profile</h1>
       <div className="allProfile">
         <h3
           data-testid="profile-email"

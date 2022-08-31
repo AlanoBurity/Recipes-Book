@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import context from '../context/Context';
+import logo from '../images/logo.png';
 import './Login.css';
 
 function Login() {
@@ -43,7 +44,9 @@ function Login() {
 
   return (
     <div className="loginPageBody">
+      <div />
       <form className="formLogin">
+        <img src={ logo } className="logo" alt="logo" />
         <input
           className="inputEmail"
           placeholder="Digite o Email"

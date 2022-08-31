@@ -4,6 +4,17 @@
   height: 15px;
   justify-content: space-around;
   left: 95px;
+  margin-left: 20%;
   padding: 3px;
-  width: 300px;
+  width: 200px;
+}
+
+.seachOpt {
+  background-color: #fae35f;
+  border: 3px solid black;
+  margin-bottom: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
+  text-align: center;
 }

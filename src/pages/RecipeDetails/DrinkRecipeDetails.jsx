@@ -137,43 +137,49 @@ function DrinkRecipeDetails() {
   };
 
   return (
-    <div>
+    <div className="allRecipe">
       <img
         src={ strDrinkThumb }
         alt={ strDrink }
         data-testid="recipe-photo"
+        className="recipe-photo"
       />
       <h1 data-testid="recipe-title">{strDrink}</h1>
+      <div className="buttonsFoodRecipes">
+        <input
+          type="image"
+          onClick={ handleShareFavPage }
+          data-testid="share-btn"
+          src={ shareIcon }
+          alt="shareIcon"
+        />
+        { favLinkCopyed && <p>Link copied!</p>}
 
-      <input
-        type="image"
-        onClick={ handleShareFavPage }
-        data-testid="share-btn"
-        src={ shareIcon }
-        alt="shareIcon"
-      />
-      { favLinkCopyed && <p>Link copied!</p>}
-
-      <input
-        type="image"
-        onClick={ hadleSetFav }
-        data-testid="favorite-btn"
-        src={ isFav ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-      />
-
+        <input
+          type="image"
+          onClick={ hadleSetFav }
+          data-testid="favorite-btn"
+          src={ isFav ? blackHeartIcon : whiteHeartIcon }
+          alt="favorite"
+          className="favBtn"
+        />
+      </div>
       <h2 data-testid="recipe-category">{strAlcoholic}</h2>
-      <h2>Ingredients</h2>
-      <ul>
-        {
-          renderIngredientsList()
-        }
-      </ul>
-      <h2>Instructions</h2>
-      <p data-testid="instructions">{strInstructions}</p>
-      <p>{strGlass}</p>
+      <div className="ingredientes">
+        <h2>Ingredients</h2>
+        <ul>
+          {
+            renderIngredientsList()
+          }
+        </ul>
+      </div>
+      <div className="instructions">
+        <h2>Instructions</h2>
+        <p data-testid="instructions">{strInstructions}</p>
+        <p>{strGlass}</p>
+      </div>
       <h2>Recommended</h2>
-      <Swiper slidesPerView={ 1 }>
+      <Swiper slidesPerView={ 1 } className="carousel">
         {isLoading ? 'carregando'
           : limitRecomendation
             .map((meal, index) => (
@@ -188,10 +194,10 @@ function DrinkRecipeDetails() {
                     alt={ meal.strMeal }
                     className="imagem2"
                   />
-                  <p data-testid={ `${index}-recomendation-title` }>
+                  <h1 data-testid={ `${index}-recomendation-title` }>
                     {meal.strMeal}
 
-                  </p>
+                  </h1>
                   <h1>{meal.strCategory}</h1>
                 </div>
               </SwiperSlide>

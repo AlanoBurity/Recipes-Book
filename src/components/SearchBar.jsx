@@ -70,7 +70,7 @@ function SearchBar(props) {
   };
 
   return (
-    <div>
+    <div className="seachOpt">
       <input
         className="input-text"
         data-testid="search-input"
@@ -82,6 +82,7 @@ function SearchBar(props) {
       <label htmlFor="ingredient">
         Ingredient
         <input
+          className="radioBtn"
           id="ingredient"
           name="search-type"
           data-testid="ingredient-search-radio"

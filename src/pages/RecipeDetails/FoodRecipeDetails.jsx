@@ -141,51 +141,55 @@ function FoodRecipeDetails() {
   };
 
   return (
-    <div>
+    <div className="allRecipe">
 
       <img
         src={ strMealThumb }
         alt={ strMeal }
         data-testid="recipe-photo"
+        className="recipe-photo"
       />
 
       <h1 data-testid="recipe-title">{strMeal}</h1>
+      <div className="buttonsFoodRecipes">
+        <input
+          type="image"
+          onClick={ handleShareFavPage }
+          data-testid="share-btn"
+          src={ shareIcon }
+          alt="shareIcon"
+        />
+        { favLinkCopyed && <p>Link copied!</p>}
 
-      <input
-        type="image"
-        onClick={ handleShareFavPage }
-        data-testid="share-btn"
-        src={ shareIcon }
-        alt="shareIcon"
-      />
-      { favLinkCopyed && <p>Link copied!</p>}
-
-      <input
-        type="image"
-        onClick={ hadleSetFav }
-        data-testid="favorite-btn"
-        src={ isFav ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-      />
+        <input
+          type="image"
+          onClick={ hadleSetFav }
+          data-testid="favorite-btn"
+          src={ isFav ? blackHeartIcon : whiteHeartIcon }
+          alt="favorite"
+          className="favBtn"
+        />
+      </div>
 
       <h2 data-testid="recipe-category">{strCategory}</h2>
-
-      <h2>Ingredients</h2>
-      <ul>
-        {
-          renderIngredientsList()
-        }
-      </ul>
-
-      <h2>Instructions</h2>
-      <p data-testid="instructions">{strInstructions}</p>
-
+      <div className="ingredientes">
+        <h2>Ingredients</h2>
+        <ul>
+          {
+            renderIngredientsList()
+          }
+        </ul>
+      </div>
+      <div className="instructions">
+        <h2>Instructions</h2>
+        <p data-testid="instructions" className="instructions">{strInstructions}</p>
+      </div>
       <h2>Video</h2>
       <div>
         <iframe width="300" height="300" src={ `https://www.youtube.com/embed/${urlId}` } title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen data-testid="video" />
       </div>
       <h2>Recommended</h2>
-      <Swiper slidesPerView={ 1 }>
+      <Swiper slidesPerView={ 1 } className="carousel">
         {isLoading ? 'carregando'
           : (limitRecomendation
             .map((drink, index) => (
@@ -193,12 +197,12 @@ function FoodRecipeDetails() {
                 <div
                   data-testid={ `${index}-recomendation-card` }
                   key={ `${drink.strDrink}${index}` }
-                  className="card"
+                  className="imagem"
                 >
                   <img
                     src={ drink.strDrinkThumb }
                     alt={ drink.strDrink }
-                    className="card-img"
+                    className="imagem2"
                   />
                   <h2
                     data-testid={ `${index}-recomendation-title` }

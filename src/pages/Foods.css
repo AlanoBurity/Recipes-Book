@@ -1,0 +1,27 @@
+.containerRecipes {
+  display: flex;
+  flex-direction: column;
+  margin-left: 23%;
+  margin-top: 40px;
+  width: 190px;
+}
+
+.bttnRecipes {
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.searchFoods {
+  margin-left: 23px;
+}
+
+.searchDrinks {
+  margin-left: 15%;
+  text-align: center;
+  width: 250px;
+}
+
+.imgDrinksFoods {
+  border-radius: 5px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import context from '../context/Context';
+import './Login.css';
 
 function Login() {
   const history = useHistory();
@@ -41,21 +42,26 @@ function Login() {
   };
 
   return (
-    <div>
-      <form>
+    <div className="loginPageBody">
+      <form className="formLogin">
         <input
+          className="inputEmail"
+          placeholder="Digite o Email"
           type="email"
           data-testid="email-input"
           onChange={ handleChangeEmail }
           value={ email }
         />
         <input
+          className="inputPassword"
+          placeholder="Digite a Senha"
           type="password"
           data-testid="password-input"
           onChange={ handleChangePassword }
           value={ password }
         />
         <button
+          className="bttnLogin"
           type="button"
           data-testid="login-submit-btn"
           disabled={ validateEmailAndPassword() }

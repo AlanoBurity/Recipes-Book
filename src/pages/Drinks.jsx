@@ -32,7 +32,6 @@ function Drinks(props) {
     <>
       <Header titulo="Drinks" searchInput />
       { searchBtn && <SearchBar pathname={ pathname } history={ history } /> }
-      <p>drinks</p>
       { apiCocktailData.drinks && <Recipes pathname={ pathname } history={ history } />}
       <Footer />
     </>

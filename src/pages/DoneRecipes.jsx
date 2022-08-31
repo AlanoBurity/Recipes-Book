@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import HorizontalCard from '../components/HorizontalCard';
 import context from '../context/Context';
+import './DoneRecipes.css';
 
 function DoneRecipes(props) {
   const { location: { pathname } } = props;
@@ -30,27 +31,31 @@ function DoneRecipes(props) {
     <div>
       <Header titulo="Done Recipes" searchInput={ false } />
       <section>
-        <button
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ handleAllFilter }
-        >
-          All
-        </button>
-        <button
-          onClick={ hanfleFoodFilter }
-          type="button"
-          data-testid="filter-by-food-btn"
-        >
-          Food
-        </button>
-        <button
-          onClick={ handleDrinksFilter }
-          type="button"
-          data-testid="filter-by-drink-btn"
-        >
-          Drinks
-        </button>
+        <div className="buttnsDoneRecipes">
+          <button
+            type="button"
+            data-testid="filter-by-all-btn"
+            onClick={ handleAllFilter }
+            className="olar"
+          >
+            All
+          </button>
+          <button
+            onClick={ hanfleFoodFilter }
+            type="button"
+            data-testid="filter-by-food-btn"
+            className="olar"
+          >
+            Food
+          </button>
+          <button
+            onClick={ handleDrinksFilter }
+            type="button"
+            className="olar"
+          >
+            Drinks
+          </button>
+        </div>
 
         {/* map do arquivo de receitas prontas requisito anterior */}
         <div>

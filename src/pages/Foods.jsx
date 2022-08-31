@@ -35,7 +35,6 @@ function Foods(props) {
     <>
       <Header titulo="Foods" searchInput />
       {searchBtn && <SearchBar pathname={ pathname } history={ history } />}
-      <p>foods</p>
       {apiMealData.meals && <Recipes pathname={ pathname } history={ history } />}
       <Footer />
     </>

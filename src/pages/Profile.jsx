@@ -2,6 +2,7 @@ import React, { useEffect, useState/* , useContext */ /* useEffect  */ } from 'r
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import './Profile.css';
 
 function Profile() {
   const [userEmailOnLocalStorage, setUserEmailOnLocalStorage] = useState('');
@@ -22,36 +23,42 @@ function Profile() {
     <div>
 
       <Header titulo="Profile" searchInput={ false } />
-      <h1 data-testid="profile-email">
+      <div className="allProfile">
+        <h3
+          data-testid="profile-email"
+          className="emailLstorage"
+        >
+          {' '}
+          {userEmailOnLocalStorage}
+        </h3>
+        <button
+          type="button"
+          data-testid="profile-done-btn"
+          onClick={ () => history.push('/done-recipes') }
+          className="button-profile-btns"
+        >
+          Done Recipes
+        </button>
+
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          className="button-profile-btns"
+          onClick={ () => history.push('/favorite-recipes') }
+        >
+          Favorite Recipes
+        </button>
+
         {' '}
-        {userEmailOnLocalStorage}
-      </h1>
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ () => history.push('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        className="button profile-btns"
-        onClick={ () => history.push('/favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-
-      {' '}
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        className="button profile-btns"
-        onClick={ () => { clearStorage(); history.push('/'); } }
-      >
-        Logout
-      </button>
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          className="button-profile-btns"
+          onClick={ () => { clearStorage(); history.push('/'); } }
+        >
+          Logout
+        </button>
+      </div>
       <Footer />
     </div>
   );

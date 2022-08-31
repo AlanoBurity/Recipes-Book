@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import context from '../context/Context';
+import '../pages/FavoriteRecipes.css';
 
 function FavPageButtons() {
   const { favoriteRecipes, setFavoriteRecipes } = useContext(context);
@@ -24,11 +25,12 @@ function FavPageButtons() {
     setFavoriteRecipes(drinks);
   };
   return (
-    <div>
+    <div className="favoriteRecipesBtnContainer">
       <button
         type="button"
         data-testid="filter-by-all-btn"
         onClick={ handleAllFavFilter }
+        className="favoriteRecipesBtn"
       >
         All
       </button>
@@ -37,6 +39,7 @@ function FavPageButtons() {
         type="button"
         data-testid="filter-by-food-btn"
         onClick={ hanfleFoodFavs }
+        className="favoriteRecipesBtn"
       >
         Food
       </button>
@@ -45,6 +48,7 @@ function FavPageButtons() {
         type="button"
         data-testid="filter-by-drink-btn"
         onClick={ handleDrinksFacs }
+        className="favoriteRecipesBtn"
       >
         Drinks
       </button>

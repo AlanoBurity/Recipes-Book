@@ -5,6 +5,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import '../../App.css';
+import './RecipeInProgress.css';
 
 function DrinkInProgress() {
   const history = useHistory();
@@ -24,7 +25,6 @@ function DrinkInProgress() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
-    // eslint-disable-next-line
   }, []);
   const hadleSetFav = () => {
     if (isLoading === false) {
@@ -38,19 +38,16 @@ function DrinkInProgress() {
         name: recipeProgress.drinks[0].strDrink,
         image: recipeProgress.drinks[0].strDrinkThumb,
       };
-      // quando não é favoritado e ja tem favoriteRecipes no local storage
       if (localFavs !== null && !isFav) {
         localStorage.setItem('favoriteRecipes', JSON.stringify([...localFavs, favObj]));
         setIsFav(true);
         return;
       }
-      // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
       if (localFavs === null && !isFav) {
         localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
         setIsFav(true);
         return;
       }
-      // quando quer desfavoritar
       if (localFavs !== null && isFav) {
         const removeFav = localFavs.filter((fav) => fav.id !== id);
         localStorage.setItem('favoriteRecipes', JSON.stringify(removeFav));
@@ -82,7 +79,6 @@ function DrinkInProgress() {
       setIsLoading(false);
     };
     fetchById(endPoint);
-    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -102,7 +98,6 @@ function DrinkInProgress() {
       meals: {},
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(firstInProgress));
-    // eslint-disable-next-line
   }, []);
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
@@ -198,36 +193,49 @@ ${recipeProgress.drinks[0][medidas[index]]}`}
   const renderDrink = () => {
     if (isLoading === false) {
       return (
-        <div>
+        <div className="inProgress">
           <main key={ recipeProgress.drinks[0].strDrink }>
             <img
               data-testid="recipe-photo"
               src={ recipeProgress.drinks[0].strDrinkThumb }
               alt="Cocktail"
+              className="imgInProgress"
             />
-            <h3 data-testid="recipe-title">
-              {recipeProgress.drinks[0].strDrink}
-            </h3>
-            <p data-testid="recipe-category">{recipeProgress.drinks[0].strCategory}</p>
-            <form id="form">
-              {renderIngredientsList()}
-            </form>
-            <input
-              type="image"
-              onClick={ handleShareFavPage }
-              data-testid="share-btn"
-              src={ shareIcon }
-              alt="shareIcon"
-            />
-            { favLinkCopyed && <p>Link copied!</p>}
-            <input
-              type="image"
-              onClick={ hadleSetFav }
-              data-testid="favorite-btn"
-              src={ isFav ? blackHeartIcon : whiteHeartIcon }
-              alt="favorite"
-            />
-            <p data-testid="instructions">{recipeProgress.drinks[0].strInstructions}</p>
+            <div className="itensRecipeInProgress">
+              <h3 data-testid="recipe-title">
+                {recipeProgress.drinks[0].strDrink}
+              </h3>
+              <p data-testid="recipe-category">{recipeProgress.drinks[0].strCategory}</p>
+              <form id="form" className="testando">
+                {renderIngredientsList()}
+              </form>
+              <div className="buttonsRecipesInProgress">
+                <input
+                  type="image"
+                  onClick={ handleShareFavPage }
+                  data-testid="share-btn"
+                  src={ shareIcon }
+                  alt="shareIcon"
+
+                />
+                { favLinkCopyed && <p>Link copied!</p>}
+                <input
+                  type="image"
+                  onClick={ hadleSetFav }
+                  data-testid="favorite-btn"
+                  src={ isFav ? blackHeartIcon : whiteHeartIcon }
+                  alt="favorite"
+                  className="favBtnn"
+                />
+              </div>
+              <p
+                data-testid="instructions"
+                className="testando"
+              >
+                {recipeProgress.drinks[0].strInstructions}
+
+              </p>
+            </div>
             <button
               type="button"
               data-testid="finish-recipe-btn"
@@ -241,9 +249,7 @@ ${recipeProgress.drinks[0][medidas[index]]}`}
     }
     return (<div>Carregando...</div>);
   };
-  return (
-    <div>{renderDrink()}</div>
-  );
+  return (<div>{renderDrink()}</div>);
 }
 DrinkInProgress.propTypes = {
 };

@@ -5,7 +5,7 @@ import fetchCocktailApi from '../services/fetchCocktailApi';
 import fetchDrinksFilterCategory from '../services/fetchDrinksFilterCategory';
 import fetchMealApi from '../services/fetchMealApi';
 import fetchMealsFilterCategory from '../services/fetchMealsFilterCategory';
-import '../styles/RecipesCard.css';
+import '../pages/Foods.css';
 
 const numberRenderItems = 12;
 const numberMaxCategorys = 5;
@@ -73,7 +73,7 @@ function Recipes(props) {
     <div>
       {pathname === '/drinks' && drinksCategorys.drinks && (
         <div>
-          <div>
+          <div className="searchDrinks">
             <button
               data-testid="All-category-filter"
               type="button"
@@ -94,16 +94,18 @@ function Recipes(props) {
             ))}
           </div>
           {drinks.slice(0, numberRenderItems).map((drink, index) => (
-            <div key={ drink.idDrink }>
+            <div key={ drink.idDrink } className="containerRecipes">
               <img
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
                 data-testid={ `${index}-card-img` }
+                className="imgDrinksFoods"
               />
               <button
                 type="button"
                 data-testid={ `${index}-recipe-card` }
                 onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+                className="bttnRecipes"
               >
                 <span data-testid={ `${index}-card-name` }>{drink.strDrink}</span>
               </button>
@@ -114,7 +116,7 @@ function Recipes(props) {
 
       {pathname === '/foods' && mealsCategorys.meals && (
         <div>
-          <div>
+          <div className="searchFoods">
             <button
               data-testid="All-category-filter"
               type="button"
@@ -137,16 +139,18 @@ function Recipes(props) {
               ))}
           </div>
           {meals.slice(0, numberRenderItems).map((meal, index) => (
-            <div key={ meal.idMeal }>
+            <div key={ meal.idMeal } className="containerRecipes">
               <img
                 src={ meal.strMealThumb }
                 alt={ meal.idMeal }
                 data-testid={ `${index}-card-img` }
+                className="imgDrinksFoods"
               />
               <button
                 type="button"
                 data-testid={ `${index}-recipe-card` }
                 onClick={ () => history.push(`/foods/${meal.idMeal}`) }
+                className="bttnRecipes"
               >
                 <span data-testid={ `${index}-card-name` }>{meal.strMeal}</span>
               </button>

@@ -7,3 +7,74 @@ div .horizontal-scroll {
   white-space: nowrap;
   width: 300px;
 }
+
+.recipe-photo {
+  border-radius: 5px;
+  height: 200px;
+  margin-top: 10%;
+  width: 200px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.allRecipe {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredientes {
+  align-items: center;
+  background-color: #fae35f;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  padding-right: 15px;
+}
+
+.buttonsFoodRecipes {
+  background-color: #fae35f;
+  border-radius: 5px;
+  display: flex;
+  padding: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.favBtn {
+  margin-left: 7px;
+}
+
+.instructions {
+  align-items: center;
+  background-color: #fae35f;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 5%;
+  width: 300px;
+  border-radius: 10px;
+
+}
+
+.carousel {
+  background-color: #FA796B;
+  height: 300px;
+  margin-bottom: 30px;
+  width: 320px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  padding-top: 10px;
+  border-radius: 5px;
+}
+
+.imagem2 {
+  border-radius: 5px;
+  height: 150px;
+  width: 150px;
+}
+
+.imagem {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}

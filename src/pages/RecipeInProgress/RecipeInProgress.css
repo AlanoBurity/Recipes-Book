@@ -1,0 +1,46 @@
+.recipesInProgress {
+  align-content: center;
+  display: flex;
+}
+
+.imgInProgress {
+  border-radius: 5px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  height: 250px;
+  margin-left: 15%;
+  margin-top: 7%;
+  width: 250px;
+}
+
+/* .inProgress {
+ display: flex;
+ background-color: beige;
+} */
+
+.itensRecipeInProgress {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: 8%;
+  margin-top: 10%;
+  width: 300px;
+}
+
+.buttonsRecipesInProgress {
+  background-color: #FAE678;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  display: flex;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.favBtnn {
+  margin-left: 7px;
+}
+
+.testando {
+  background-color: #FAE678;
+  border-radius: 5px;
+  padding: 10px;
+}

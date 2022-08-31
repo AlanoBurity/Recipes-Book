@@ -5,6 +5,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import '../../App.css';
+import './RecipeInProgress.css';
 
 function FoodInProgress() {
   const history = useHistory();
@@ -24,11 +25,9 @@ function FoodInProgress() {
       const hasFav = localFavs.some((e) => Number(e.id) === Number(id));
       setIsFav(hasFav);
     }
-    // eslint-disable-next-line
   }, []);
   const hadleSetFav = () => {
     const localFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    // quando não é favoritado e ja tem favoriteRecipes no local storage
     const favObj = {
       id,
       type: 'food',
@@ -43,7 +42,6 @@ function FoodInProgress() {
       setIsFav(true);
       return;
     }
-    // quando não é favoritado e ja NÃO tem favoriteRecipes no local storage
     if (localFavs === null && !isFav) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([favObj]));
       setIsFav(true);
@@ -80,7 +78,6 @@ function FoodInProgress() {
       setIsLoading(false);
     };
     fetchById(endPoint);
-    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     const inProgressArray = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -100,7 +97,6 @@ function FoodInProgress() {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(firstInprogress));
-    // eslint-disable-next-line
   }, []);
   const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
@@ -123,7 +119,10 @@ function FoodInProgress() {
         if (recipeProgress.meals[0][ingrediente] !== null
                     && recipeProgress.meals[0][ingrediente].length > 0) {
           retorno = (
-            <div key={ index } data-testid={ `${index}-ingredient-step` }>
+            <div
+              key={ index }
+              data-testid={ `${index}-ingredient-step` }
+            >
               <input
                 name={ index }
                 value={ checked[index] }
@@ -196,36 +195,48 @@ function FoodInProgress() {
   const renderMeal = () => {
     if (isLoading === false) {
       return (
-        <div>
+        <div className="inProgress">
           <main key={ recipeProgress.meals[0].strMeal }>
             <img
               data-testid="recipe-photo"
               src={ recipeProgress.meals[0].strMealThumb }
               alt="Cocktail"
+              className="imgInProgress"
             />
-            <h3 data-testid="recipe-title">
-              {recipeProgress.meals[0].strMeal}
-            </h3>
-            <p data-testid="recipe-category">{recipeProgress.meals[0].strCategory}</p>
-            <form id="form">
-              {renderIngredientsList()}
-            </form>
-            <input
-              type="image"
-              onClick={ handleShareFavPage }
-              data-testid="share-btn"
-              src={ shareIcon }
-              alt="shareIcon"
-            />
-            { favLinkCopyed && <p>Link copied!</p>}
-            <input
-              type="image"
-              onClick={ hadleSetFav }
-              data-testid="favorite-btn"
-              src={ isFav ? blackHeartIcon : whiteHeartIcon }
-              alt="favorite"
-            />
-            <p data-testid="instructions">{recipeProgress.meals[0].strInstructions}</p>
+            <div className="itensRecipeInProgress">
+              <h3 data-testid="recipe-title">
+                {recipeProgress.meals[0].strMeal}
+              </h3>
+              <p data-testid="recipe-category">{recipeProgress.meals[0].strCategory}</p>
+              <form id="form" className="testando">
+                {renderIngredientsList()}
+              </form>
+              <div className="buttonsRecipesInProgress">
+                <input
+                  type="image"
+                  onClick={ handleShareFavPage }
+                  data-testid="share-btn"
+                  src={ shareIcon }
+                  alt="shareIcon"
+                />
+                { favLinkCopyed && <p>Link copied!</p>}
+                <input
+                  type="image"
+                  onClick={ hadleSetFav }
+                  data-testid="favorite-btn"
+                  src={ isFav ? blackHeartIcon : whiteHeartIcon }
+                  alt="favorite"
+                  className="favBtnn"
+                />
+              </div>
+              <p
+                data-testid="instructions"
+                className="testando"
+              >
+                {recipeProgress.meals[0].strInstructions}
+
+              </p>
+            </div>
             <button
               type="button"
               data-testid="finish-recipe-btn"
@@ -240,9 +251,7 @@ function FoodInProgress() {
     return (<div>Carregando...</div>);
   };
   return (
-    <div>
-      {renderMeal()}
-    </div>
+    <div>{renderMeal() }</div>
   );
 }
 FoodInProgress.propTypes = {

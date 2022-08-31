@@ -5,6 +5,7 @@ import copy from 'clipboard-copy';
 import context from '../context/Context';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../pages/FavoriteRecipes.css';
 
 function HorizontalCard(props) {
   const { pathname } = props;
@@ -35,105 +36,97 @@ function HorizontalCard(props) {
     copy(`${protocol}//${host}/${name}`);
   };
 
-  // mock favoriteRecipes
-  // const mockFav = [
-  //   {
-  //     id: '52771',
-  //     type: 'food',
-  //     nationality: 'Italian',
-  //     category: 'Vegetarian',
-  //     alcoholicOrNot: '',
-  //     name: 'Spicy Arrabiata Penne',
-  //     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-  //   },
-  //   {
-  //     id: '178319',
-  //     type: 'drink',
-  //     nationality: '',
-  //     category: 'Cocktail',
-  //     alcoholicOrNot: 'Alcoholic',
-  //     name: 'Aquamarine',
-  //     image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-  //   },
-  // ];
-  // fim mock
-
   return (
     <div>
       {pathname === '/done-recipes' && doneRec
         .map((elem, index = 0) => (elem.type === 'food' ? (
-          <div key={ index }>
+          <div key={ index } className="favoriteRecipeCard">
             <button
               type="button"
               onClick={ () => history.push(`/foods/${elem.id}`) }
+              className="bttnDoneRecipes"
             >
               <img
                 src={ elem.image }
                 alt={ elem.name }
                 data-testid={ `${index}-horizontal-image` }
+                className="favoriteRecipesImg"
               />
             </button>
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              { `${elem.nationality} - ${elem.category}` }
-            </p>
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-name` }
-              onClick={ () => history.push(`/foods/${elem.id}`) }
-            >
-              {elem.name}
-            </button>
-            <p data-testid={ `${index}-horizontal-done-date` }>{elem.doneDate}</p>
-            <button
-              value={ elem.id }
-              src={ shareIcon }
-              type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ () => handleCopy(elem.id) }
-            >
-              <img src={ shareIcon } alt="shareIcon" />
-            </button>
-            { favLinkCopyed && <p>Link copied!</p>}
-            <p
-              data-testid={ `${index}-${elem.tags[0]}-horizontal-tag` }
-            >
-              { elem.tags[0] }
-            </p>
-            <p
-              data-testid={ `${index}-${elem.tags[1]}-horizontal-tag` }
-            >
-              { elem.tags[1] }
-            </p>
+            <div className="details">
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                { `${elem.nationality} - ${elem.category}` }
+              </p>
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-name` }
+                onClick={ () => history.push(`/foods/${elem.id}`) }
+                className="favoriteRecipesBtn2"
+              >
+                {elem.name}
+              </button>
+              <p data-testid={ `${index}-horizontal-done-date` }>{elem.doneDate}</p>
+              <button
+                value={ elem.id }
+                src={ shareIcon }
+                type="button"
+                data-testid={ `${index}-horizontal-share-btn` }
+                onClick={ () => handleCopy(elem.id) }
+                className="favoriteRecipesBtn"
+              >
+                <img src={ shareIcon } alt="shareIcon" />
+              </button>
+              { favLinkCopyed && <p>Link copied!</p>}
+              {/*       <p
+                data-testid={ `${index}-${elem.tags[0]}-horizontal-tag` }
+              >
+                { elem.tags[0] }
+              </p> */}
+              {/*         <p
+                data-testid={ `${index}-${elem.tags[1]}-horizontal-tag` }
+              >
+                { elem.tags[1] }
+              </p> */}
+            </div>
           </div>
         ) : (
-          <div key={ index }>
-            <button type="button" onClick={ () => history.push(`/drinks/${elem.id}`) }>
+          <div key={ index } className="favoriteRecipeCard">
+            <button
+              type="button"
+              className="bttnDoneRecipes"
+              onClick={ () => history.push(`/drinks/${elem.id}`) }
+            >
               <img
                 src={ elem.image }
                 alt={ elem.name }
                 data-testid={ `${index}-horizontal-image` }
+                className="favoriteRecipesImg"
               />
             </button>
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              { `${elem.alcoholicOrNot} - ${elem.category}` }
-            </p>
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-name` }
-              onClick={ () => history.push(`/drinks/${elem.id}`) }
-            >
-              {elem.name}
-            </button>
-            <p data-testid={ `${index}-horizontal-done-date` }>{elem.doneDate}</p>
-            <button
-              value={ elem.id }
-              src={ shareIcon }
-              type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ () => handleCopy(elem.id) }
-            >
-              <img src={ shareIcon } alt="shareIcon" />
-            </button>
+            <div className="details">
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                { `${elem.alcoholicOrNot} - ${elem.category}` }
+              </p>
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-name` }
+                onClick={ () => history.push(`/drinks/${elem.id}`) }
+                className="favoriteRecipesBtn"
+              >
+                {elem.name}
+              </button>
+              <p data-testid={ `${index}-horizontal-done-date` }>{elem.doneDate}</p>
+              <button
+                value={ elem.id }
+                src={ shareIcon }
+                type="button"
+                data-testid={ `${index}-horizontal-share-btn` }
+                onClick={ () => handleCopy(elem.id) }
+                className="favoriteRecipesBtn"
+              >
+                <img src={ shareIcon } alt="shareIcon" />
+              </button>
+            </div>
           </div>
         )))}
 
@@ -141,15 +134,16 @@ function HorizontalCard(props) {
       {pathname === '/favorite-recipes' && favoriteRecipes && (
         <div>
           {favoriteRecipes.map((recipe, index) => (
-            <div key={ recipe.id }>
+            <div key={ recipe.id } className="favoriteRecipeCard">
               <Link to={ `${recipe.type}s/${recipe.id}` }>
                 <img
                   data-testid={ `${index}-horizontal-image` }
                   src={ recipe.image }
                   alt={ recipe.name }
+                  className="favoriteRecipesImg"
                 />
               </Link>
-              <div>
+              <div className="details">
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >

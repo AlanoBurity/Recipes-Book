@@ -12,7 +12,7 @@ function Header({ titulo, searchInput }) {
   // console.log(history);
   return (
     <header className="container-header">
-      <div>
+      <div className="bttns">
         <button
           data-testid="profile"
           type="button"
@@ -27,12 +27,13 @@ function Header({ titulo, searchInput }) {
       </div>
       <h1
         data-testid="page-title"
+        className="titulo"
       >
         { titulo }
       </h1>
       { searchInput && (
         // Referencia Stackoverflow https://stackoverflow-com.translate.goog/questions/47839856/image-onclick-failing-in-react?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt-BR&_x_tr_pto=sc
-        <div>
+        <div className="bttns">
           <button
             data-testid="search"
             type="button"

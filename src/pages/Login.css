@@ -1,0 +1,29 @@
+body {
+  background-color: white;
+}
+
+.formLogin {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+  margin-top: 70%;
+  width: 200px;
+}
+
+.inputEmail {
+  border: 2px solid black;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.inputPassword {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.bttnLogin {
+  margin-top: 20px;
+}
+
